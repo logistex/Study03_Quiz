@@ -91,4 +91,96 @@ const QUESTIONS = [
     explanation: "대한민국 임시정부는 1919년 4월 11일 중국 상하이에서 수립되었다.",
     source: { name: "한국민족문화대백과사전 「대한민국 임시정부」", url: "https://encykorea.aks.ac.kr/Article/E0015017" }
   },
+
+  // ----- 세계지리 -----
+  {
+    id: "wg-01",
+    category: "세계지리",
+    question: "몽골의 수도는?",
+    choices: ["울란바토르", "아스타나", "비슈케크", "타슈켄트"],
+    answer: 0,
+    explanation: "몽골의 수도는 울란바토르(울란바타르)이다.",
+    source: { name: "한국민족문화대백과사전 「몽골」", url: "https://encykorea.aks.ac.kr/Article/E0018778" }
+  },
+  {
+    id: "wg-02",
+    category: "세계지리",
+    question: "티베트 고원에서 시작해 중국, 라오스, 캄보디아 등을 지나 베트남에서 남중국해로 흘러드는 강은?",
+    choices: ["메콩강", "양쯔강", "이라와디강", "짜오프라야강"],
+    answer: 0,
+    explanation: "메콩강은 티베트 고원에서 발원해 베트남 삼각주를 거쳐 남중국해로 흐른다.",
+    source: { name: "National Geographic, “The Mekong Delta is in danger as waters dry up”", url: "https://www.nationalgeographic.com/science/article/southeast-asia-most-critical-river-enters-uncharted-waters" }
+  },
+  {
+    id: "wg-03",
+    category: "세계지리",
+    question: "빙하가 깎아 낸 깊은 골짜기에 바닷물이 들어와 생긴, 노르웨이 해안에 많은 좁고 긴 만은?",
+    choices: ["피오르", "리아스", "석호", "삼각주"],
+    answer: 0,
+    explanation: "피오르는 마지막 빙하기에 빙하가 깎은 골짜기로 이루어진 좁고 깊은 만이다.",
+    source: { name: "National Geographic Education 「Fjord」", url: "https://education.nationalgeographic.org/resource/fjord/" }
+  },
+  {
+    id: "wg-04",
+    category: "세계지리",
+    question: "유럽은 서쪽 아이슬란드에서 동쪽 러시아의 어느 산맥까지 펼쳐져 있는가?",
+    choices: ["우랄산맥", "알프스산맥", "카르파티아산맥", "피레네산맥"],
+    answer: 0,
+    explanation: "유럽은 서쪽 아이슬란드에서 동쪽 러시아의 우랄산맥까지 이어진다.",
+    source: { name: "National Geographic Education 「Europe: Physical Geography」", url: "https://education.nationalgeographic.org/resource/europe-physical-geography/" }
+  },
+  {
+    id: "wg-05",
+    category: "세계지리",
+    question: "키보, 마웬지, 시라 세 화산체로 이루어진 킬리만자로산이 있는 나라는?",
+    choices: ["탄자니아", "케냐", "우간다", "에티오피아"],
+    answer: 0,
+    explanation: "킬리만자로산은 탄자니아에 있으며 키보·마웬지·시라 세 화산체로 이루어져 있다.",
+    source: { name: "National Geographic Education 「Kilimanjaro」", url: "https://education.nationalgeographic.org/resource/kilimanjaro/" }
+  },
+  {
+    id: "wg-06",
+    category: "세계지리",
+    question: "아프리카에서 북쪽의 사하라 사막과 남쪽의 사바나 사이에 띠 모양으로 펼쳐진 반건조 전이 지대는?",
+    choices: ["사헬", "마그레브", "칼라하리", "세렝게티"],
+    answer: 0,
+    explanation: "사헬은 사하라와 사바나 사이에 좁고 길게 이어진 반건조 전이 지대이다.",
+    source: { name: "National Geographic Education 「Africa: Physical Geography」", url: "https://education.nationalgeographic.org/resource/africa-physical-geography/" }
+  },
+  {
+    id: "wg-07",
+    category: "세계지리",
+    question: "안데스산맥의 빙하에서 흘러내린 지류들이 모이는 아마존강이 민물을 쏟아 내는 대양은?",
+    choices: ["대서양", "태평양", "인도양", "북극해"],
+    answer: 0,
+    explanation: "아마존강은 매초 약 20만 9천 ㎥의 민물을 대서양으로 쏟아 낸다.",
+    source: { name: "National Geographic Education 「South America: Physical Geography」", url: "https://education.nationalgeographic.org/resource/south-america-physical-geography/" }
+  },
+  {
+    id: "wg-08",
+    category: "세계지리",
+    question: "1857년 빅토리아 여왕이 캐나다주(Province of Canada)의 정부 소재지로 고른 도시는?",
+    choices: ["오타와", "토론토", "몬트리올", "밴쿠버"],
+    answer: 0,
+    explanation: "1857년 빅토리아 여왕이 오타와를 캐나다주의 정부 소재지로 골랐다.",
+    source: { name: "House of Commons of Canada, 「Ottawa as the Seat of Government」", url: "https://www.ourcommons.ca/procedure/procedure-and-practice-3/ch_06_1-e.html" }
+  },
+  {
+    id: "wg-09",
+    category: "세계지리",
+    question: "1908년 오스트레일리아 의회가 「정부 소재지법」으로 수도를 세울 곳으로 공식 선정한 지역은?",
+    choices: ["야스-캔버라", "시드니", "멜버른", "애들레이드"],
+    answer: 0,
+    explanation: "1908년 정부 소재지법으로 야스-캔버라 지역이 수도 건설지로 정해졌다.",
+    source: { name: "Parliamentary Education Office (Australia), 「Seat of Government Act 1908」", url: "https://peo.gov.au/understand-our-parliament/history-of-parliament/history-milestones/australian-parliament-history-timeline/events/seat-of-government-act-1908" }
+  },
+  {
+    id: "wg-10",
+    category: "세계지리",
+    question: "국제지구물리관측년(1957~58)에 남극에서 활동한 12개국이 워싱턴에서 남극 조약에 서명한 해는?",
+    choices: ["1959년", "1945년", "1972년", "1991년"],
+    answer: 0,
+    explanation: "남극 조약은 1959년 12월 1일 워싱턴에서 12개국이 서명했다.",
+    source: { name: "Secretariat of the Antarctic Treaty, 「The Antarctic Treaty」", url: "https://www.ats.aq/e/antarctictreaty.html" }
+  },
 ];
