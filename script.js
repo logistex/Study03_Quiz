@@ -222,6 +222,11 @@ selfTest("validateQuestions: 필수 항목, id 형식·중복, 출처를 검사�
   check(validateQuestions(e).some(msg => msg.includes("출처 이름 없음")), "출처 없음이 통과됨");
 });
 
+selfTest("실제 문항 데이터(QUESTIONS)가 규칙을 통과한다", check => {
+  const errors = validateQuestions(QUESTIONS);
+  check(errors.length === 0, errors.join("; "));
+});
+
 // ===== 4. 상태 =====
 
 // ===== 5. 화면 조작 =====
