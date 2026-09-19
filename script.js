@@ -228,8 +228,176 @@ selfTest("실제 문항 데이터(QUESTIONS)가 규칙을 통과한다", check =
 });
 
 // ===== 4. 상태 =====
+const state = {
+  category: null,
+  mode: "practice",
+  round: [],
+  index: 0,
+  score: 0,
+  results: [],       // { item, chosen, isCorrect, points }, 시간 초과면 chosen: null
+  usedHint: false,
+  timerId: null,
+  secondsLeft: 0,
+  isRetry: false,
+  answered: false    // 현재 문항에 답했는지. 두 번 채점되지 않게 막습니다.
+};
 
 // ===== 5. 화면 조작 =====
+function $(id) {
+  return document.getElementById(id);
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.hidden = screen.id !== id;
+  });
+  window.scrollTo(0, 0);
+}
+
+function startRound(category, mode) {
+  state.category = category;
+  state.mode = mode;
+  state.round = buildRound(QUESTIONS, category);
+  state.index = 0;
+  state.score = 0;
+  state.results = [];
+  state.isRetry = false;
+  showScreen("screen-question");
+  renderQuestion();
+}
+
+function renderStatus() {
+  $("status-label").textContent = `${state.category} · ${MODE_LABELS[state.mode]}`;
+  $("status-progress").textContent = `${state.index + 1} / ${state.round.length}`;
+  $("status-score").textContent = `점수 ${state.score}`;
+}
+
+function renderQuestion() {
+  const item = state.round[state.index];
+  state.answered = false;
+  state.usedHint = false;
+  renderStatus();
+  $("question-text").textContent = item.question;
+
+  const list = $("choice-buttons");
+  list.replaceChildren();
+  item.choices.forEach((text, i) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "choice";
+    button.textContent = text;
+    button.addEventListener("click", () => handleAnswer(i));
+    list.append(button);
+  });
+
+  $("feedback").hidden = true;
+}
+
+// choiceIndex가 null이면 시간 초과입니다.
+function handleAnswer(choiceIndex) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const item = state.round[state.index];
+  const isCorrect = choiceIndex === item.answer;
+  const points = scoreAnswer(isCorrect, state.usedHint);
+  state.score += points;
+  state.results.push({ item, chosen: choiceIndex, isCorrect, points });
+
+  showFeedback(item, choiceIndex, isCorrect);
+}
+
+function addMark(button, text) {
+  const mark = document.createElement("span");
+  mark.className = "mark";
+  mark.textContent = text;
+  button.append(mark);
+}
+
+function showFeedback(item, choiceIndex, isCorrect) {
+  $("choice-buttons").querySelectorAll("button").forEach((button, i) => {
+    button.disabled = true;
+    if (i === item.answer) {
+      button.classList.add("correct");
+      addMark(button, "정답");
+    } else if (i === choiceIndex) {
+      button.classList.add("wrong");
+      addMark(button, "오답");
+    }
+  });
+
+  const verdict = $("feedback-verdict");
+  verdict.textContent = isCorrect ? "정답!" : choiceIndex === null ? "시간 초과" : "오답";
+  verdict.className = isCorrect ? "verdict verdict-correct" : "verdict verdict-wrong";
+  $("feedback-explanation").textContent = item.explanation;
+  const source = $("feedback-source");
+  source.textContent = item.source.name;
+  source.href = item.source.url;
+  renderStatus();
+
+  const isLast = state.index === state.round.length - 1;
+  $("next-button").textContent = isLast ? "결과 보기" : "다음";
+  $("feedback").hidden = false;
+  $("next-button").focus();
+}
+
+function nextQuestion() {
+  state.index += 1;
+  if (state.index < state.round.length) {
+    renderQuestion();
+  } else {
+    renderResult();
+  }
+}
+
+function renderResult() {
+  const total = state.round.length;
+  $("result-score").textContent = `${state.score} / ${total}`;
+  $("result-practice-note").hidden = state.mode !== "practice";
+
+  const list = $("result-list");
+  list.replaceChildren();
+  state.results.forEach(result => {
+    const li = document.createElement("li");
+    li.className = result.isCorrect ? "result-correct" : "result-wrong";
+    const question = document.createElement("p");
+    question.textContent = result.item.question;
+    const detail = document.createElement("p");
+    detail.className = "result-detail";
+    detail.textContent = `${result.isCorrect ? "정답" : "오답"} · 정답: ${result.item.choices[result.item.answer]}`;
+    li.append(question, detail);
+    list.append(li);
+  });
+
+  showScreen("screen-result");
+}
+
+function onCategoryChosen(category) {
+  startRound(category, "practice");
+}
+
+function init() {
+  const errors = validateQuestions(typeof QUESTIONS === "undefined" ? null : QUESTIONS);
+  if (errors.length > 0) {
+    console.error("문항 데이터 오류", errors);
+    $("data-error").hidden = false;
+  }
+
+  const buttons = $("category-buttons");
+  CATEGORIES.forEach(category => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = category;
+    button.disabled = errors.length > 0;
+    button.addEventListener("click", () => onCategoryChosen(category));
+    buttons.append(button);
+  });
+
+  $("next-button").addEventListener("click", nextQuestion);
+  $("again-button").addEventListener("click", () => startRound(state.category, state.mode));
+  $("home-button").addEventListener("click", () => showScreen("screen-start"));
+}
 
 // ===== 6. 시작 =====
 if (typeof location !== "undefined" && /[?&]test\b/.test(location.search)) runSelfTests();
+if (typeof document !== "undefined") init();
