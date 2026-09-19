@@ -275,4 +275,96 @@ const QUESTIONS = [
     explanation: "외핵은 두께 약 2,200km로, 주로 액체 상태의 철과 니켈로 이루어져 있다.",
     source: { name: "National Geographic Education 「Core」", url: "https://education.nationalgeographic.org/resource/core/" }
   },
+
+  // ----- 예술과 문화 -----
+  {
+    id: "ac-01",
+    category: "예술과 문화",
+    question: "「서당」과 「씨름」이 실린 『풍속도 화첩』을 그린 조선 후기 화가는?",
+    choices: ["김홍도", "신윤복", "정선", "장승업"],
+    answer: 0,
+    explanation: "단원 김홍도의 『풍속도 화첩』 25폭 중 「서당」과 「씨름」이 대표작이다.",
+    source: { name: "한국민족문화대백과사전 「김홍도 필 풍속도 화첩」", url: "https://encykorea.aks.ac.kr/Article/E0013639" }
+  },
+  {
+    id: "ac-02",
+    category: "예술과 문화",
+    question: "1751년 비 갠 뒤의 인왕산을 그린 「인왕제색도」의 화가는?",
+    choices: ["정선", "김홍도", "안견", "신윤복"],
+    answer: 0,
+    explanation: "진경산수화를 창안한 겸재 정선이 76세이던 1751년에 그렸다.",
+    source: { name: "국사편찬위원회 우리역사넷 「정선 필 인왕제색도」", url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_r300776&code=kc_age_30" }
+  },
+  {
+    id: "ac-03",
+    category: "예술과 문화",
+    question: "밀라노 공작의 부탁을 받아 식당 벽에 「최후의 만찬」을 그린 화가는?",
+    choices: ["레오나르도 다빈치", "미켈란젤로", "라파엘로", "보티첼리"],
+    answer: 0,
+    explanation: "레오나르도 다빈치가 밀라노 공작의 부탁으로 식당 벽화 「최후의 만찬」을 그렸다.",
+    source: { name: "National Geographic Kids 「Leonardo da Vinci」", url: "https://kids.nationalgeographic.com/history/article/leonardo-da-vinci" }
+  },
+  {
+    id: "ac-04",
+    category: "예술과 문화",
+    question: "가야의 가실왕이 만들고 우륵에게 12곡을 짓게 한, 줄이 12개인 현악기는?",
+    choices: ["가야금", "거문고", "해금", "아쟁"],
+    answer: 0,
+    explanation: "가야금은 가실왕이 만든 12줄 악기로, 우륵이 왕명으로 12곡을 지었다.",
+    source: { name: "한국민족문화대백과사전 「가야금」", url: "https://encykorea.aks.ac.kr/Article/E0000261" }
+  },
+  {
+    id: "ac-05",
+    category: "예술과 문화",
+    question: "판소리 공연에서 소리꾼 곁에서 소리북을 치며 장단과 추임새를 넣는 사람은?",
+    choices: ["고수", "소리꾼", "명창", "재인"],
+    answer: 0,
+    explanation: "고수는 판소리와 산조에서 소리북을 연주하며 추임새를 넣는다.",
+    source: { name: "국립국악원 국악사전 「고수」", url: "https://www.gugak.go.kr/ency/topic/view/1575" }
+  },
+  {
+    id: "ac-06",
+    category: "예술과 문화",
+    question: "2024년 노벨 문학상을 받은 한국 작가는?",
+    choices: ["한강", "황석영", "신경숙", "김훈"],
+    answer: 0,
+    explanation: "스웨덴 한림원은 한강의 ‘강렬한 시적 산문’을 선정 이유로 들었다.",
+    source: { name: "VOA 한국어, 「한강, 한국인 최초 노벨문학상 수상」", url: "https://www.voakorea.com/a/7817604.html" }
+  },
+  {
+    id: "ac-07",
+    category: "예술과 문화",
+    question: "고전 소설 「홍길동전」에서 홍길동이 스스로 칭한 무리의 이름은?",
+    choices: ["활빈당", "의열단", "신간회", "독립협회"],
+    answer: 0,
+    explanation: "길동은 활빈당이라 칭하며 수령들의 부당한 재물을 가난한 백성에게 나눴다.",
+    source: { name: "한국민족문화대백과사전 「홍길동전」", url: "https://encykorea.aks.ac.kr/Article/E0063994" }
+  },
+  {
+    id: "ac-08",
+    category: "예술과 문화",
+    question: "1995년 석굴암과 함께 유네스코 세계문화유산이 된, 경주 토함산의 통일신라 절은?",
+    choices: ["불국사", "해인사", "통도사", "부석사"],
+    answer: 0,
+    explanation: "불국사는 1995년 석굴암과 함께 유네스코 세계문화유산이 되었다.",
+    source: { name: "한국민족문화대백과사전 「경주 불국사」", url: "https://encykorea.aks.ac.kr/Article/E0024933" }
+  },
+  {
+    id: "ac-09",
+    category: "예술과 문화",
+    question: "무굴 황제 샤 자한이 왕비 뭄타즈 마할을 기리며 야무나강 가에 세운 무덤 건축물은?",
+    choices: ["타지마할", "앙코르 와트", "알람브라 궁전", "쿠트브 미나르"],
+    answer: 0,
+    explanation: "타지마할은 샤 자한이 왕비 뭄타즈 마할을 기려 세운 무굴 건축물이다.",
+    source: { name: "Archaeological Survey of India, 「Agra – Taj Mahal」", url: "https://asi.nic.in/pages/WorldHeritageAgra" }
+  },
+  {
+    id: "ac-10",
+    category: "예술과 문화",
+    question: "조선 역대 왕과 왕비의 신위를 모신 사당에서 지내는 유교 의례로, 유네스코 인류무형유산인 것은?",
+    choices: ["종묘제례", "석전대제", "사직대제", "강릉단오제"],
+    answer: 0,
+    explanation: "종묘제례는 조선 역대 왕과 왕비의 신위를 모신 종묘에서 지내는 유교 의례이다.",
+    source: { name: "한국민족문화대백과사전 「종묘제례」", url: "https://encykorea.aks.ac.kr/Article/E0052933" }
+  },
 ];
