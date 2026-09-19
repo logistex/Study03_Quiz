@@ -17,6 +17,27 @@ function shuffle(array, random = Math.random) {
   return copy;
 }
 
+// 문항 순서와 보기 순서를 섞고, 정답 번호를 섞인 위치로 고칩니다.
+function prepareRound(items, random = Math.random) {
+  return shuffle(items, random).map(item => {
+    const order = shuffle([0, 1, 2, 3], random);
+    return {
+      ...item,
+      choices: order.map(i => item.choices[i]),
+      answer: order.indexOf(item.answer)
+    };
+  });
+}
+
+function buildRound(questions, category, random = Math.random) {
+  return prepareRound(questions.filter(q => q.category === category), random);
+}
+
+function scoreAnswer(isCorrect, usedHint) {
+  if (!isCorrect) return 0;
+  return usedHint ? 0.5 : 1;
+}
+
 // ===== 3. 자체 점검 =====
 const SELF_TESTS = [];
 
@@ -80,6 +101,37 @@ selfTest("shuffle은 같은 원소를 모두 담은 새 배열을 반환한다",
 selfTest("shuffle은 random 값에 따라 순서를 바꾼다", check => {
   const result = shuffle([1, 2, 3, 4], () => 0);
   check(result.join() === "2,3,4,1", `결과 ${result.join()}`);
+});
+
+selfTest("buildRound는 해당 카테고리 문항만 모두 담는다", check => {
+  const round = buildRound(makeQuestionSet(), "과학");
+  check(round.length === 10, `길이 ${round.length}`);
+  check(round.every(item => item.category === "과학"), "다른 카테고리가 섞임");
+  check(new Set(round.map(item => item.id)).size === 10, "문항 중복");
+});
+
+selfTest("buildRound는 보기를 섞어도 정답 위치를 맞게 다시 계산한다", check => {
+  const questions = makeQuestionSet();
+  for (let n = 0; n < 20; n++) {
+    buildRound(questions, "한국사").forEach(item => {
+      check(item.choices.length === 4, `${item.id}: 보기 ${item.choices.length}개`);
+      check(item.choices[item.answer] === `${item.id} 정답`, `${item.id}: 정답 위치 틀림`);
+    });
+  }
+});
+
+selfTest("buildRound는 원본 문항을 바꾸지 않는다", check => {
+  const questions = makeQuestionSet();
+  buildRound(questions, "한국사", () => 0);
+  check(questions[0].answer === 0, "원본 answer가 바뀜");
+  check(questions[0].choices[0] === "kh-01 정답", "원본 choices가 바뀜");
+});
+
+selfTest("scoreAnswer: 맞히면 1점, 힌트 쓰고 맞히면 0.5점, 틀리면 0점", check => {
+  check(scoreAnswer(true, false) === 1, "맞힘");
+  check(scoreAnswer(true, true) === 0.5, "힌트 쓰고 맞힘");
+  check(scoreAnswer(false, false) === 0, "틀림");
+  check(scoreAnswer(false, true) === 0, "힌트 쓰고 틀림");
 });
 
 // ===== 4. 상태 =====
