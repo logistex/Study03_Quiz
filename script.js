@@ -38,6 +38,50 @@ function scoreAnswer(isCorrect, usedHint) {
   return usedHint ? 0.5 : 1;
 }
 
+// 문항 데이터가 PRD 4.1·4.2의 형식을 지키는지 검사하고 오류 메시지 목록을 돌려줍니다.
+function validateQuestions(questions) {
+  if (!Array.isArray(questions)) return ["QUESTIONS가 배열이 아님"];
+  const errors = [];
+  const seenIds = new Set();
+
+  questions.forEach((q, n) => {
+    if (!q || typeof q !== "object") {
+      errors.push(`${n + 1}번째 항목: 객체가 아님`);
+      return;
+    }
+    const label = typeof q.id === "string" && q.id ? q.id : `${n + 1}번째 항목`;
+
+    for (const key of ["id", "category", "question", "explanation"]) {
+      if (typeof q[key] !== "string" || q[key].trim() === "") errors.push(`${label}: ${key} 없음`);
+    }
+    if (!CATEGORIES.includes(q.category)) {
+      errors.push(`${label}: 알 수 없는 카테고리 "${q.category}"`);
+    } else if (!new RegExp(`^${CATEGORY_PREFIX[q.category]}-\\d{2}$`).test(q.id)) {
+      errors.push(`${label}: id 형식이 ${CATEGORY_PREFIX[q.category]}-00 꼴이 아님`);
+    }
+    if (seenIds.has(q.id)) errors.push(`${label}: id 중복`);
+    seenIds.add(q.id);
+
+    if (!Array.isArray(q.choices) || q.choices.length !== 4) {
+      errors.push(`${label}: 보기가 4개가 아님`);
+    } else {
+      if (q.choices.some(c => typeof c !== "string" || c.trim() === "")) errors.push(`${label}: 빈 보기`);
+      if (new Set(q.choices).size !== 4) errors.push(`${label}: 보기 중복`);
+    }
+    if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer > 3) errors.push(`${label}: answer가 0~3이 아님`);
+
+    const source = q.source;
+    if (!source || typeof source.name !== "string" || source.name.trim() === "") errors.push(`${label}: 출처 이름 없음`);
+    if (!source || typeof source.url !== "string" || !source.url.startsWith("https://")) errors.push(`${label}: 출처 URL이 https://로 시작하지 않음`);
+  });
+
+  for (const category of CATEGORIES) {
+    const count = questions.filter(q => q && q.category === category).length;
+    if (count !== QUESTIONS_PER_CATEGORY) errors.push(`${category}: 문항 ${count}개 (${QUESTIONS_PER_CATEGORY}개여야 함)`);
+  }
+  return errors;
+}
+
 // ===== 3. 자체 점검 =====
 const SELF_TESTS = [];
 
@@ -132,6 +176,50 @@ selfTest("scoreAnswer: 맞히면 1점, 힌트 쓰고 맞히면 0.5점, 틀리면
   check(scoreAnswer(true, true) === 0.5, "힌트 쓰고 맞힘");
   check(scoreAnswer(false, false) === 0, "틀림");
   check(scoreAnswer(false, true) === 0, "힌트 쓰고 틀림");
+});
+
+selfTest("validateQuestions: 올바른 40문항은 오류가 없다", check => {
+  const errors = validateQuestions(makeQuestionSet());
+  check(errors.length === 0, errors.join("; "));
+});
+
+selfTest("validateQuestions: 배열이 아니면 오류", check => {
+  check(validateQuestions(null).length > 0, "null이 통과됨");
+});
+
+selfTest("validateQuestions: 카테고리별 10개가 아니면 오류", check => {
+  const errors = validateQuestions(makeQuestionSet().slice(1));
+  check(errors.some(e => e.startsWith("한국사: 문항 9개")), errors.join("; "));
+});
+
+selfTest("validateQuestions: 보기 수, 보기 중복, answer 범위를 검사한다", check => {
+  const a = makeQuestionSet();
+  a[0].choices = a[0].choices.slice(0, 3);
+  check(validateQuestions(a).some(e => e.startsWith("kh-01: 보기가 4개가 아님")), "보기 3개가 통과됨");
+  const b = makeQuestionSet();
+  b[0].choices[1] = b[0].choices[0];
+  check(validateQuestions(b).some(e => e.includes("보기 중복")), "보기 중복이 통과됨");
+  const c = makeQuestionSet();
+  c[0].answer = 4;
+  check(validateQuestions(c).some(e => e.includes("answer")), "answer 4가 통과됨");
+});
+
+selfTest("validateQuestions: 필수 항목, id 형식·중복, 출처를 검사한다", check => {
+  const a = makeQuestionSet();
+  a[0].explanation = "";
+  check(validateQuestions(a).some(e => e.includes("explanation 없음")), "빈 해설이 통과됨");
+  const b = makeQuestionSet();
+  b[1].id = "kh-01";
+  check(validateQuestions(b).some(e => e.includes("id 중복")), "id 중복이 통과됨");
+  const c = makeQuestionSet();
+  c[0].id = "xx-01";
+  check(validateQuestions(c).some(e => e.includes("id 형식")), "잘못된 id 형식이 통과됨");
+  const d = makeQuestionSet();
+  d[0].source.url = "http://example.com";
+  check(validateQuestions(d).some(e => e.includes("URL")), "http URL이 통과됨");
+  const e = makeQuestionSet();
+  delete e[0].source;
+  check(validateQuestions(e).some(msg => msg.includes("출처 이름 없음")), "출처 없음이 통과됨");
 });
 
 // ===== 4. 상태 =====
