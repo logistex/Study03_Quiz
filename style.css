@@ -96,3 +96,6 @@ button.primary { background: var(--primary); border-color: var(--primary); color
 
 .timer { font-weight: 700; color: var(--text); }
 .timer.urgent { color: var(--wrong); }
+
+.hint-button { width: 100%; text-align: center; margin-bottom: 16px; }
+.choice.removed { opacity: 0.35; text-decoration: line-through; }

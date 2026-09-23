@@ -365,6 +365,11 @@ function renderQuestion() {
     list.append(button);
   });
 
+  const hintButton = $("hint-button");
+  hintButton.hidden = state.mode !== "hint";
+  hintButton.disabled = false;
+  hintButton.textContent = "힌트 (오답 2개 지우기)";
+
   $("feedback").hidden = true;
 
   if (state.mode === "speed") {
@@ -372,6 +377,22 @@ function renderQuestion() {
   } else {
     $("status-timer").hidden = true;
   }
+}
+
+function useHint() {
+  if (state.answered || state.usedHint) return;
+  state.usedHint = true;
+
+  const item = state.round[state.index];
+  const buttons = $("choice-buttons").querySelectorAll("button");
+  pickHintRemovals(item).forEach(i => {
+    buttons[i].disabled = true;
+    buttons[i].classList.add("removed");
+  });
+
+  const hintButton = $("hint-button");
+  hintButton.disabled = true;
+  hintButton.textContent = "힌트 사용함";
 }
 
 // choiceIndex가 null이면 시간 초과입니다.
@@ -407,6 +428,7 @@ function showFeedback(item, choiceIndex, isCorrect) {
       addMark(button, "오답");
     }
   });
+  $("hint-button").disabled = true;
 
   const verdict = $("feedback-verdict");
   verdict.textContent = isCorrect ? "정답!" : choiceIndex === null ? "시간 초과" : "오답";
@@ -484,6 +506,7 @@ function init() {
     button.addEventListener("click", () => startRound(state.category, button.dataset.mode));
   });
   $("mode-back-button").addEventListener("click", () => showScreen("screen-start"));
+  $("hint-button").addEventListener("click", useHint);
 }
 
 // ===== 6. 시작 =====
