@@ -89,3 +89,7 @@ button.primary { background: var(--primary); border-color: var(--primary); color
 
 .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .button-row button { flex: 1 1 140px; text-align: center; }
+
+.mode-button { display: flex; flex-direction: column; gap: 2px; }
+.mode-button span { color: var(--muted); font-size: 0.9rem; }
+.mode-button .mode-note { color: var(--text); background: var(--notice-bg); border-radius: 6px; padding: 2px 8px; align-self: flex-start; }

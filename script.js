@@ -4,7 +4,7 @@
 const CATEGORIES = ["한국사", "세계지리", "과학", "예술과 문화"];
 const CATEGORY_PREFIX = { "한국사": "kh", "세계지리": "wg", "과학": "sc", "예술과 문화": "ac" };
 const QUESTIONS_PER_CATEGORY = 10;
-const MODE_LABELS = { practice: "연습" };
+const MODE_LABELS = { practice: "연습", speed: "스피드", hint: "힌트" };
 
 // ===== 2. 순수 로직 =====
 // Fisher–Yates. 원본은 두고 섞은 복사본을 돌려줍니다.
@@ -416,7 +416,9 @@ function renderResult() {
 }
 
 function onCategoryChosen(category) {
-  startRound(category, "practice");
+  state.category = category;
+  $("mode-title").textContent = `${category} · 모드를 고르세요`;
+  showScreen("screen-mode");
 }
 
 function init() {
@@ -439,6 +441,10 @@ function init() {
   $("next-button").addEventListener("click", nextQuestion);
   $("again-button").addEventListener("click", () => startRound(state.category, state.mode));
   $("home-button").addEventListener("click", () => showScreen("screen-start"));
+  document.querySelectorAll(".mode-button").forEach(button => {
+    button.addEventListener("click", () => startRound(state.category, button.dataset.mode));
+  });
+  $("mode-back-button").addEventListener("click", () => showScreen("screen-start"));
 }
 
 // ===== 6. 시작 =====

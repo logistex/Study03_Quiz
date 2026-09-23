@@ -13,7 +13,26 @@
       <p class="lead">카테고리를 고르세요. 한 판은 10문제입니다.</p>
       <p id="data-error" class="notice notice-error" hidden>문항 데이터 오류</p>
       <div id="category-buttons" class="button-list"></div>
-      <p id="start-practice-note" class="notice">연습 모드 · 순위표에 기록되지 않음</p>
+    </section>
+
+    <section id="screen-mode" class="screen" hidden>
+      <h2 id="mode-title"></h2>
+      <div class="button-list">
+        <button type="button" class="mode-button" data-mode="practice">
+          <strong>연습</strong>
+          <span>시간 제한과 힌트 없음, 맞히면 1점</span>
+          <span class="mode-note">순위표에 기록되지 않음</span>
+        </button>
+        <button type="button" class="mode-button" data-mode="speed">
+          <strong>스피드</strong>
+          <span>문항마다 15초, 시간이 지나면 오답</span>
+        </button>
+        <button type="button" class="mode-button" data-mode="hint">
+          <strong>힌트</strong>
+          <span>문항마다 힌트 1번, 힌트를 쓰고 맞히면 0.5점</span>
+        </button>
+      </div>
+      <button id="mode-back-button" type="button">뒤로</button>
     </section>
 
     <section id="screen-question" class="screen" hidden>
