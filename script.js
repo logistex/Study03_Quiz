@@ -5,6 +5,7 @@ const CATEGORIES = ["한국사", "세계지리", "과학", "예술과 문화"];
 const CATEGORY_PREFIX = { "한국사": "kh", "세계지리": "wg", "과학": "sc", "예술과 문화": "ac" };
 const QUESTIONS_PER_CATEGORY = 10;
 const MODE_LABELS = { practice: "연습", speed: "스피드", hint: "힌트" };
+const SPEED_SECONDS = 15;
 
 // ===== 2. 순수 로직 =====
 // Fisher–Yates. 원본은 두고 섞은 복사본을 돌려줍니다.
@@ -291,10 +292,41 @@ function $(id) {
 }
 
 function showScreen(id) {
+  stopTimer();
   document.querySelectorAll(".screen").forEach(screen => {
     screen.hidden = screen.id !== id;
   });
   window.scrollTo(0, 0);
+}
+
+function renderTimer() {
+  const timer = $("status-timer");
+  timer.hidden = false;
+  timer.textContent = `남은 시간 ${state.secondsLeft}초`;
+  timer.classList.toggle("urgent", state.secondsLeft <= 5);
+}
+
+function startTimer() {
+  stopTimer();
+  state.secondsLeft = SPEED_SECONDS;
+  renderTimer();
+  state.timerId = setInterval(() => {
+    state.secondsLeft -= 1;
+    renderTimer();
+    if (state.secondsLeft <= 0) handleTimeout();
+  }, 1000);
+}
+
+function stopTimer() {
+  if (state.timerId !== null) {
+    clearInterval(state.timerId);
+    state.timerId = null;
+  }
+}
+
+function handleTimeout() {
+  stopTimer();
+  handleAnswer(null);
 }
 
 function startRound(category, mode) {
@@ -334,12 +366,19 @@ function renderQuestion() {
   });
 
   $("feedback").hidden = true;
+
+  if (state.mode === "speed") {
+    startTimer();
+  } else {
+    $("status-timer").hidden = true;
+  }
 }
 
 // choiceIndex가 null이면 시간 초과입니다.
 function handleAnswer(choiceIndex) {
   if (state.answered) return;
   state.answered = true;
+  stopTimer();
 
   const item = state.round[state.index];
   const isCorrect = choiceIndex === item.answer;

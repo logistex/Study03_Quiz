@@ -93,3 +93,6 @@ button.primary { background: var(--primary); border-color: var(--primary); color
 .mode-button { display: flex; flex-direction: column; gap: 2px; }
 .mode-button span { color: var(--muted); font-size: 0.9rem; }
 .mode-button .mode-note { color: var(--text); background: var(--notice-bg); border-radius: 6px; padding: 2px 8px; align-self: flex-start; }
+
+.timer { font-weight: 700; color: var(--text); }
+.timer.urgent { color: var(--wrong); }
