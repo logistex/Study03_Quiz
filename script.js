@@ -82,6 +82,16 @@ function validateQuestions(questions) {
   return errors;
 }
 
+// 힌트로 지울 오답 보기 번호 2개를 무작위로 고릅니다.
+function pickHintRemovals(item, random = Math.random) {
+  const wrong = [0, 1, 2, 3].filter(i => i !== item.answer);
+  return shuffle(wrong, random).slice(0, 2).sort((a, b) => a - b);
+}
+
+function wrongItems(results) {
+  return results.filter(result => !result.isCorrect).map(result => result.item);
+}
+
 // ===== 3. 자체 점검 =====
 const SELF_TESTS = [];
 
@@ -225,6 +235,39 @@ selfTest("validateQuestions: 필수 항목, id 형식·중복, 출처를 검사�
 selfTest("실제 문항 데이터(QUESTIONS)가 규칙을 통과한다", check => {
   const errors = validateQuestions(QUESTIONS);
   check(errors.length === 0, errors.join("; "));
+});
+
+selfTest("pickHintRemovals는 정답이 아닌 보기 2개를 고른다", check => {
+  const item = { choices: ["a", "b", "c", "d"], answer: 2 };
+  const seen = new Set();
+  for (let n = 0; n < 50; n++) {
+    const removed = pickHintRemovals(item);
+    check(removed.length === 2, `개수 ${removed.length}`);
+    check(!removed.includes(2), "정답을 지움");
+    check(removed[0] !== removed[1], "같은 보기를 두 번 고름");
+    check(removed.every(i => i >= 0 && i <= 3), "범위 밖 번호");
+    removed.forEach(i => seen.add(i));
+  }
+  check(seen.size === 3, `오답 3개가 모두 뽑히지 않음: ${[...seen].join()}`);
+});
+
+selfTest("wrongItems는 틀린 문항만 순서대로 돌려준다", check => {
+  const results = [
+    { item: { id: "a" }, isCorrect: true },
+    { item: { id: "b" }, isCorrect: false },
+    { item: { id: "c" }, isCorrect: false }
+  ];
+  check(wrongItems(results).map(item => item.id).join() === "b,c", "틀린 문항 목록이 다름");
+  check(wrongItems([]).length === 0, "빈 목록에서 결과가 나옴");
+});
+
+selfTest("prepareRound는 이미 섞인 문항을 다시 섞어도 정답을 유지한다", check => {
+  const once = buildRound(makeQuestionSet(), "과학");
+  for (let n = 0; n < 20; n++) {
+    prepareRound(once).forEach(item => {
+      check(item.choices[item.answer] === `${item.id} 정답`, `${item.id}: 정답 위치 틀림`);
+    });
+  }
 });
 
 // ===== 4. 상태 =====
