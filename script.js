@@ -341,10 +341,23 @@ function startRound(category, mode) {
   renderQuestion();
 }
 
+// 방금 끝난 판(또는 다시 풀기)에서 틀린 문항만 섞어서 다시 냅니다. 점수는 그대로 둡니다.
+function startRetry() {
+  const items = wrongItems(state.results);
+  if (items.length === 0) return;
+  state.round = prepareRound(items);
+  state.index = 0;
+  state.results = [];
+  state.isRetry = true;
+  showScreen("screen-question");
+  renderQuestion();
+}
+
 function renderStatus() {
-  $("status-label").textContent = `${state.category} · ${MODE_LABELS[state.mode]}`;
+  const retryLabel = state.isRetry ? " · 다시 풀기" : "";
+  $("status-label").textContent = `${state.category} · ${MODE_LABELS[state.mode]}${retryLabel}`;
   $("status-progress").textContent = `${state.index + 1} / ${state.round.length}`;
-  $("status-score").textContent = `점수 ${state.score}`;
+  $("status-score").textContent = state.isRetry ? "채점 안 함" : `점수 ${state.score}`;
 }
 
 function renderQuestion() {
@@ -395,7 +408,7 @@ function useHint() {
   hintButton.textContent = "힌트 사용함";
 }
 
-// choiceIndex가 null이면 시간 초과입니다.
+// choiceIndex가 null이면 시간 초과입니다. 다시 풀기는 채점하지 않습니다.
 function handleAnswer(choiceIndex) {
   if (state.answered) return;
   state.answered = true;
@@ -403,7 +416,7 @@ function handleAnswer(choiceIndex) {
 
   const item = state.round[state.index];
   const isCorrect = choiceIndex === item.answer;
-  const points = scoreAnswer(isCorrect, state.usedHint);
+  const points = state.isRetry ? 0 : scoreAnswer(isCorrect, state.usedHint);
   state.score += points;
   state.results.push({ item, chosen: choiceIndex, isCorrect, points });
 
@@ -456,8 +469,16 @@ function nextQuestion() {
 
 function renderResult() {
   const total = state.round.length;
-  $("result-score").textContent = `${state.score} / ${total}`;
+  const correct = state.results.filter(result => result.isCorrect).length;
+
+  $("result-title").textContent = state.isRetry ? "다시 풀기 결과" : "결과";
+  const score = $("result-score");
+  score.textContent = state.isRetry
+    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${QUESTIONS_PER_CATEGORY}`
+    : `${state.score} / ${total}`;
+  score.classList.toggle("result-score-retry", state.isRetry);
   $("result-practice-note").hidden = state.mode !== "practice";
+  $("retry-button").hidden = !(state.mode === "practice" && correct < total);
 
   const list = $("result-list");
   list.replaceChildren();
@@ -468,7 +489,9 @@ function renderResult() {
     question.textContent = result.item.question;
     const detail = document.createElement("p");
     detail.className = "result-detail";
-    detail.textContent = `${result.isCorrect ? "정답" : "오답"} · 정답: ${result.item.choices[result.item.answer]}`;
+    const verdict = result.isCorrect ? "정답" : result.chosen === null ? "시간 초과" : "오답";
+    const hintNote = result.points === 0.5 ? " (힌트 0.5점)" : "";
+    detail.textContent = `${verdict}${hintNote} · 정답: ${result.item.choices[result.item.answer]}`;
     li.append(question, detail);
     list.append(li);
   });
@@ -507,6 +530,7 @@ function init() {
   });
   $("mode-back-button").addEventListener("click", () => showScreen("screen-start"));
   $("hint-button").addEventListener("click", useHint);
+  $("retry-button").addEventListener("click", startRetry);
 }
 
 // ===== 6. 시작 =====
