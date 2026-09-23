@@ -49,7 +49,7 @@ const QUESTIONS = [
   {
     id: "kh-06",
     category: "한국사",
-    question: "1592년 한산도 대첩에서 이순신이 모든 전선에 진을 짜게 해 일본 수군을 무찌른 진법의 이름은?",
+    question: "1592년 한산도 대첩에서 이순신이 모든 전선을 펼쳐 일본 수군을 무찌른 전술 대형의 이름은?",
     choices: ["학익진", "장사진", "어린진", "일자진"],
     answer: 0,
     explanation: "이순신은 학익진을 펼쳐 일본 수군을 크게 무찔렀다.",
@@ -225,7 +225,7 @@ const QUESTIONS = [
     id: "sc-05",
     category: "과학",
     question: "1869년 원소를 원자량에 따라 배열한 주기율표를 발표하고, 아직 발견되지 않은 원소 자리를 비워 둔 러시아 화학자는?",
-    choices: ["멘델레예프", "라부아지에", "돌턴", "모즐리"],
+    choices: ["멘델레예프", "라부아지에", "아보가드로", "베르셀리우스"],
     answer: 0,
     explanation: "멘델레예프는 1869년 주기율표를 발표하며 미발견 원소 자리에 물음표를 넣었다.",
     source: { name: "American Institute of Physics, 「A look at the first published periodic table」", url: "https://www.aip.org/library/a-look-at-the-first-published-periodic-table" }
@@ -242,7 +242,7 @@ const QUESTIONS = [
   {
     id: "sc-07",
     category: "과학",
-    question: "식물 세포에서 엽록소가 햇빛을 흡수해 광합성이 일어나는 세포 소기관은?",
+    question: "식물 세포에서 햇빛 에너지로 양분을 만드는 광합성이 일어나는 세포 소기관은?",
     choices: ["엽록체", "미토콘드리아", "리보솜", "골지체"],
     answer: 0,
     explanation: "광합성은 엽록체에서 일어나며, 엽록체 속 엽록소가 빛을 흡수한다.",
