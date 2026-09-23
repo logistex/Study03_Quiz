@@ -1,4 +1,4 @@
-// 상식 퀴즈 문항. 작성 규칙은 PRD.md 4.2, 형식은 IMPL-PLAN.md "문항 작성 절차"를 따릅니다.
+// 상식 퀴즈 문항. 작성 규칙은 CLAUDE.md, 형식은 IMPL-PLAN.md "문항 작성 절차"를 따릅니다.
 const QUESTIONS = [
   // ----- 한국사 -----
   {
@@ -7,7 +7,7 @@ const QUESTIONS = [
     question: "광개토대왕의 업적을 기리기 위해 광개토대왕릉비를 세운 고구려의 왕은?",
     choices: ["장수왕", "소수림왕", "고국원왕", "미천왕"],
     answer: 0,
-    explanation: "아들 장수왕이 414년(장수왕 3)에 세웠다.",
+    explanation: "아들 장수왕이 414년에 세웠다.",
     source: { name: "한국민족문화대백과사전 「광개토왕릉비」", url: "https://encykorea.aks.ac.kr/Article/E0005058" }
   },
   {
@@ -40,7 +40,7 @@ const QUESTIONS = [
   {
     id: "kh-05",
     category: "한국사",
-    question: "세종이 1443년에 창제한 훈민정음을 해례본으로 완성해 반포한 해는?",
+    question: "세종이 1443년에 창제한 훈민정음의 해설서인 해례본이 완성된 해는?",
     choices: ["1446년", "1444년", "1448년", "1450년"],
     answer: 0,
     explanation: "1443년 겨울 창제, 1446년 9월 상순에 해례본이 완성되었다.",
@@ -49,7 +49,7 @@ const QUESTIONS = [
   {
     id: "kh-06",
     category: "한국사",
-    question: "1592년 한산도 대첩에서 이순신이 모든 전선에 짜게 하여 일본 수군을 무찌른 진법은?",
+    question: "1592년 한산도 대첩에서 이순신이 모든 전선에 진을 짜게 해 일본 수군을 무찌른 진법의 이름은?",
     choices: ["학익진", "장사진", "어린진", "일자진"],
     answer: 0,
     explanation: "이순신은 학익진을 펼쳐 일본 수군을 크게 무찔렀다.",
@@ -61,7 +61,7 @@ const QUESTIONS = [
     question: "1776년 정조가 즉위하면서 궐내에 설치한 왕실 도서관이자 학술·정책 연구 기관은?",
     choices: ["규장각", "집현전", "홍문관", "성균관"],
     answer: 0,
-    explanation: "규장각은 1776년(정조 즉위년) 3월 궐내에 설치되었다.",
+    explanation: "규장각은 정조가 즉위한 1776년에 궐내에 설치되었다.",
     source: { name: "한국민족문화대백과사전 「규장각」", url: "https://encykorea.aks.ac.kr/Article/E0007273" }
   },
   {
@@ -85,10 +85,10 @@ const QUESTIONS = [
   {
     id: "kh-10",
     category: "한국사",
-    question: "1919년 4월 11일, 대한민국 임시정부가 수립된 도시는?",
+    question: "3·1 운동 뒤인 1919년 4월, 대한민국 임시정부가 수립된 도시는?",
     choices: ["상하이", "충칭", "블라디보스토크", "베이징"],
     answer: 0,
-    explanation: "대한민국 임시정부는 1919년 4월 11일 중국 상하이에서 수립되었다.",
+    explanation: "대한민국 임시정부는 1919년 4월 중국 상하이에서 수립되었다.",
     source: { name: "한국민족문화대백과사전 「대한민국 임시정부」", url: "https://encykorea.aks.ac.kr/Article/E0015017" }
   },
 
@@ -150,10 +150,10 @@ const QUESTIONS = [
   {
     id: "wg-07",
     category: "세계지리",
-    question: "안데스산맥의 빙하에서 흘러내린 지류들이 모이는 아마존강이 민물을 쏟아 내는 대양은?",
+    question: "안데스산맥에서 발원해 남아메리카를 가로질러 흐르는 아마존강이 흘러드는 대양은?",
     choices: ["대서양", "태평양", "인도양", "북극해"],
     answer: 0,
-    explanation: "아마존강은 매초 약 20만 9천 ㎥의 민물을 대서양으로 쏟아 낸다.",
+    explanation: "아마존강은 안데스산맥에서 발원해 대서양으로 민물을 쏟아 낸다.",
     source: { name: "National Geographic Education 「South America: Physical Geography」", url: "https://education.nationalgeographic.org/resource/south-america-physical-geography/" }
   },
   {
@@ -189,7 +189,7 @@ const QUESTIONS = [
     id: "sc-01",
     category: "과학",
     question: "국제단위계(SI)에서 진공 속 빛의 속력으로 정확히 정해 둔 값은?",
-    choices: ["299,792,458 m/s", "300,000,000 m/s", "343 m/s", "3,000,000 m/s"],
+    choices: ["299,792,458 m/s", "299,458,792 m/s", "298,792,458 m/s", "300,000,000 m/s"],
     answer: 0,
     explanation: "진공 속 빛의 속력은 오차 없는 정확한 값 299,792,458 m/s로 정해져 있다.",
     source: { name: "NIST, 「CODATA Value: speed of light in vacuum」", url: "https://physics.nist.gov/cgi-bin/cuu/Value?c" }
@@ -272,7 +272,7 @@ const QUESTIONS = [
     question: "지구의 외핵은 주로 어떤 물질로 이루어져 있는가?",
     choices: ["액체 상태의 철과 니켈", "고체 상태의 철과 니켈", "액체 상태의 규산염 암석", "고체 상태의 규산염 암석"],
     answer: 0,
-    explanation: "외핵은 두께 약 2,200km로, 주로 액체 상태의 철과 니켈로 이루어져 있다.",
+    explanation: "외핵은 주로 액체 상태의 철과 니켈로 이루어져 있다.",
     source: { name: "National Geographic Education 「Core」", url: "https://education.nationalgeographic.org/resource/core/" }
   },
 
@@ -335,7 +335,7 @@ const QUESTIONS = [
     id: "ac-07",
     category: "예술과 문화",
     question: "고전 소설 「홍길동전」에서 홍길동이 스스로 칭한 무리의 이름은?",
-    choices: ["활빈당", "의열단", "신간회", "독립협회"],
+    choices: ["활빈당", "제세당", "광제당", "구빈당"],
     answer: 0,
     explanation: "길동은 활빈당이라 칭하며 수령들의 부당한 재물을 가난한 백성에게 나눴다.",
     source: { name: "한국민족문화대백과사전 「홍길동전」", url: "https://encykorea.aks.ac.kr/Article/E0063994" }
