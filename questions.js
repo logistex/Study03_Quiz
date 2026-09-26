@@ -91,6 +91,15 @@ const QUESTIONS = [
     explanation: "대한민국 임시정부는 1919년 4월 중국 상하이에서 수립되었다.",
     source: { name: "한국민족문화대백과사전 「대한민국 임시정부」", url: "https://encykorea.aks.ac.kr/Article/E0015017" }
   },
+  {
+    id: "kh-11",
+    category: "한국사",
+    question: "1145년 고려 인종의 명을 받아 김부식 등이 편찬한 삼국시대 역사서는?",
+    choices: ["삼국사기", "삼국유사", "고려사", "동국통감"],
+    answer: 0,
+    explanation: "김부식 등이 1145년 인종의 명으로 편찬한 정사체 역사서다.",
+    source: { name: "한국민족문화대백과사전 「삼국사기」", url: "https://encykorea.aks.ac.kr/Article/E0026478" }
+  },
 
   // ----- 세계지리 -----
   {
@@ -182,6 +191,15 @@ const QUESTIONS = [
     answer: 0,
     explanation: "남극 조약은 1959년 12월 1일 워싱턴에서 12개국이 서명했다.",
     source: { name: "Secretariat of the Antarctic Treaty, 「The Antarctic Treaty」", url: "https://www.ats.aq/e/antarctictreaty.html" }
+  },
+  {
+    id: "wg-11",
+    category: "세계지리",
+    question: "지중해와 홍해를 이어 1869년에 개통한, 이집트를 가로지르는 운하는?",
+    choices: ["수에즈 운하", "파나마 운하", "코린토스 운하", "킬 운하"],
+    answer: 0,
+    explanation: "1869년 11월 17일 개통해 지중해와 홍해를 잇는다.",
+    source: { name: "Suez Canal Authority 「Canal History」", url: "https://www.suezcanal.gov.eg/English/About/SuezCanal/Pages/CanalHistory.aspx" }
   },
 
   // ----- 과학 -----
@@ -275,6 +293,15 @@ const QUESTIONS = [
     explanation: "외핵은 주로 액체 상태의 철과 니켈로 이루어져 있다.",
     source: { name: "National Geographic Education 「Core」", url: "https://education.nationalgeographic.org/resource/core/" }
   },
+  {
+    id: "sc-11",
+    category: "과학",
+    question: "액체에 잠긴 물체가 받는 부력이 그 물체가 밀어낸 액체의 무게와 같다는 원리는?",
+    choices: ["아르키메데스의 원리", "베르누이의 원리", "하위헌스의 원리", "파스칼의 원리"],
+    answer: 0,
+    explanation: "잠긴 물체는 밀어낸 액체의 무게만큼 부력을 받는다.",
+    source: { name: "OpenStax University Physics 「Archimedes' Principle and Buoyancy」", url: "https://openstax.org/books/university-physics-volume-1/pages/14-4-archimedes-principle-and-buoyancy" }
+  },
 
   // ----- 예술과 문화 -----
   {
@@ -366,5 +393,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "종묘제례는 조선 역대 왕과 왕비의 신위를 모신 종묘에서 지내는 유교 의례이다.",
     source: { name: "한국민족문화대백과사전 「종묘제례」", url: "https://encykorea.aks.ac.kr/Article/E0052933" }
+  },
+  {
+    id: "ac-11",
+    category: "예술과 문화",
+    question: "1937년 에스파냐 내전 중 바스크 지방 소도시가 폭격당한 일을 주제로 「게르니카」를 그린 화가는?",
+    choices: ["파블로 피카소", "살바도르 달리", "프란시스코 고야", "호안 미로"],
+    answer: 0,
+    explanation: "피카소가 1937년 파리 만국박람회 에스파냐관을 위해 그렸다.",
+    source: { name: "Museo Reina Sofía 「Guernica」", url: "https://www.museoreinasofia.es/en/collections/artwork/guernica-0/" }
   },
 ];
