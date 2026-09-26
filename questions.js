@@ -109,6 +109,15 @@ const QUESTIONS = [
     explanation: "을지문덕이 612년 살수(청천강)에서 수나라군을 물리쳤다.",
     source: { name: "한국민족문화대백과사전 「살수대첩」", url: "https://encykorea.aks.ac.kr/Article/E0026415" }
   },
+  {
+    id: "kh-13",
+    category: "한국사",
+    question: "1861년 목판본으로 펴낸 전국 지도첩 「대동여지도」를 만든 조선 후기의 지리학자는?",
+    choices: ["김정호", "정상기", "신경준", "정약용"],
+    answer: 0,
+    explanation: "김정호가 1861년(철종 12)에 남북 22층으로 완성했다.",
+    source: { name: "한국민족문화대백과사전 「대동여지도」", url: "https://encykorea.aks.ac.kr/Article/E0014266" }
+  },
 
   // ----- 세계지리 -----
   {
@@ -218,6 +227,15 @@ const QUESTIONS = [
     answer: 0,
     explanation: "잠베지강에 있으며 잠비아와 짐바브웨 국경을 이룬다.",
     source: { name: "Zambia Tourism Agency 「Victoria Falls」", url: "https://www.zambiatourism.com/destinations/waterfalls/victoria-falls/" }
+  },
+  {
+    id: "wg-13",
+    category: "세계지리",
+    question: "남아메리카에서 적도가 지나가며, 나라 이름 자체가 에스파냐어로 '적도'를 뜻하는 나라는?",
+    choices: ["에콰도르", "콜롬비아", "베네수엘라", "볼리비아"],
+    answer: 0,
+    explanation: "나라 이름 에콰도르는 에스파냐어로 '적도'를 뜻한다.",
+    source: { name: "National Geographic Kids 「Ecuador」", url: "https://kids.nationalgeographic.com/geography/countries/article/ecuador" }
   },
 
   // ----- 과학 -----
@@ -329,6 +347,15 @@ const QUESTIONS = [
     explanation: "플레밍이 1928년 푸른곰팡이 배양접시에서 우연히 발견했다.",
     source: { name: "Science History Institute 「Alexander Fleming」", url: "https://www.sciencehistory.org/education/scientific-biographies/alexander-fleming/" }
   },
+  {
+    id: "sc-13",
+    category: "과학",
+    question: "지금의 대륙들이 하나의 거대한 땅덩이에서 갈라져 이동했다는 대륙이동설을 내놓은 독일의 기상학자는?",
+    choices: ["알프레트 베게너", "아르투어 홈스", "찰스 라이엘", "해리 헤스"],
+    answer: 0,
+    explanation: "독일 기상학자 알프레트 베게너가 20세기 초에 내놓았다.",
+    source: { name: "USGS 「This Dynamic Earth: Historical perspective」", url: "https://pubs.usgs.gov/gip/dynamic/historical.html" }
+  },
 
   // ----- 예술과 문화 -----
   {
@@ -438,5 +465,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "2022년 제17차 유네스코 무형유산위원회에서 등재가 결정되었다.",
     source: { name: "UNESCO 무형유산 「Talchum, mask dance drama in the Republic of Korea」", url: "https://ich.unesco.org/en/RL/talchum-mask-dance-drama-in-the-republic-of-korea-01742" }
+  },
+  {
+    id: "ac-13",
+    category: "예술과 문화",
+    question: "1824년 빈에서 초연된 교향곡 제9번의 마지막 악장에 실러의 시 「환희의 송가」를 노래로 붙인 작곡가는?",
+    choices: ["루트비히 판 베토벤", "프란츠 슈베르트", "요하네스 브람스", "펠릭스 멘델스존"],
+    answer: 0,
+    explanation: "베토벤이 교향곡 제9번 끝 악장을 합창으로 맺었다.",
+    source: { name: "WETA Classical 「The 200th Anniversary of the Premiere of Beethoven's Symphony No. 9」", url: "https://weta.org/fm/classical-score/may-7-1824-200th-anniversary-premiere-beethovens-symphony-no-9" }
   },
 ];
