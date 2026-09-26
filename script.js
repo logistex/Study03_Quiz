@@ -8,6 +8,8 @@ const MODE_LABELS = { practice: "연습", speed: "스피드", hint: "힌트" };
 const SPEED_SECONDS = 15;
 const LEADERBOARD_SIZE = 5;
 const NAME_MAX_LENGTH = 10;
+const LEADERBOARD_KEY = "quiz.leaderboard";
+const RANKED_MODES = ["speed", "hint"];
 
 // ===== 2. 순수 로직 =====
 // Fisher–Yates. 원본은 두고 섞은 복사본을 돌려줍니다.
@@ -587,6 +589,11 @@ function renderResult() {
   $("result-practice-note").hidden = state.mode !== "practice";
   $("retry-button").hidden = !(state.mode === "practice" && correct < total);
 
+  const canRecord = !state.isRetry && RANKED_MODES.includes(state.mode);
+  $("record-form").hidden = !canRecord;
+  $("record-error").hidden = true;
+  $("save-button").disabled = !isValidName($("record-name").value);
+
   const list = $("result-list");
   list.replaceChildren();
   state.results.forEach(result => {
@@ -604,6 +611,91 @@ function renderResult() {
   });
 
   showScreen("screen-result");
+}
+
+// 저장소를 못 쓰면 ok: false. 값이 깨져 있으면 ok: true, 빈 순위표입니다.
+function loadLeaderboard() {
+  try {
+    return { ok: true, data: parseLeaderboard(localStorage.getItem(LEADERBOARD_KEY)) };
+  } catch (error) {
+    return { ok: false, data: {} };
+  }
+}
+
+function saveLeaderboard(data) {
+  try {
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function saveRecord(event) {
+  event.preventDefault();
+  const name = $("record-name").value;
+  if (!isValidName(name)) return;
+
+  const loaded = loadLeaderboard();
+  const key = leaderboardKey(state.mode, state.category);
+  const data = loaded.data;
+  data[key] = insertRecord(data[key] || [], {
+    name: normalizeName(name),
+    score: state.score,
+    date: new Date().toISOString()
+  });
+
+  if (!loaded.ok || !saveLeaderboard(data)) {
+    $("record-error").hidden = false;
+    return;
+  }
+  $("save-button").disabled = true;
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const loaded = loadLeaderboard();
+  $("leaderboard-error").hidden = loaded.ok;
+
+  const container = $("leaderboard-tables");
+  container.replaceChildren();
+  for (const mode of RANKED_MODES) {
+    for (const category of CATEGORIES) {
+      const block = document.createElement("section");
+      block.className = "board";
+      const title = document.createElement("h3");
+      title.textContent = `${MODE_LABELS[mode]} · ${category}`;
+      block.append(title);
+
+      const records = loaded.data[leaderboardKey(mode, category)] || [];
+      if (records.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "board-empty";
+        empty.textContent = "기록 없음";
+        block.append(empty);
+      } else {
+        const table = document.createElement("table");
+        const head = table.createTHead().insertRow();
+        ["순위", "이름", "점수", "날짜"].forEach(text => {
+          const th = document.createElement("th");
+          th.scope = "col";
+          th.textContent = text;
+          head.append(th);
+        });
+        const body = table.createTBody();
+        records.forEach((record, i) => {
+          const row = body.insertRow();
+          [String(i + 1), record.name, String(record.score), formatDate(record.date)].forEach(text => {
+            row.insertCell().textContent = text;
+          });
+        });
+        block.append(table);
+      }
+      container.append(block);
+    }
+  }
+
+  showScreen("screen-leaderboard");
 }
 
 function onCategoryChosen(category) {
@@ -638,6 +730,12 @@ function init() {
   $("mode-back-button").addEventListener("click", () => showScreen("screen-start"));
   $("hint-button").addEventListener("click", useHint);
   $("retry-button").addEventListener("click", startRetry);
+  $("leaderboard-button").addEventListener("click", renderLeaderboard);
+  $("leaderboard-home-button").addEventListener("click", () => showScreen("screen-start"));
+  $("record-form").addEventListener("submit", saveRecord);
+  $("record-name").addEventListener("input", () => {
+    $("save-button").disabled = !isValidName($("record-name").value);
+  });
 }
 
 // ===== 6. 시작 =====

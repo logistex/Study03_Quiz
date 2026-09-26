@@ -13,6 +13,7 @@
       <p class="lead">카테고리를 고르세요. 한 판은 10문제입니다.</p>
       <p id="data-error" class="notice notice-error" hidden>문항 데이터 오류</p>
       <div id="category-buttons" class="button-list"></div>
+      <button id="leaderboard-button" type="button">순위표 보기</button>
     </section>
 
     <section id="screen-mode" class="screen" hidden>
@@ -57,12 +58,27 @@
       <h2 id="result-title">결과</h2>
       <p id="result-score" class="result-score"></p>
       <p id="result-practice-note" class="notice">순위표에 기록되지 않음</p>
+      <form id="record-form" class="record-form" hidden>
+        <label for="record-name">이름 (1~10자)</label>
+        <div class="record-row">
+          <input id="record-name" type="text" maxlength="10" autocomplete="nickname">
+          <button id="save-button" type="submit" class="primary" disabled>기록 저장</button>
+        </div>
+        <p id="record-error" class="notice notice-error" hidden>기록을 저장할 수 없음</p>
+      </form>
       <ol id="result-list" class="result-list"></ol>
       <div class="button-row">
         <button id="retry-button" type="button" class="primary" hidden>틀린 문제 다시 풀기</button>
         <button id="again-button" type="button" class="primary">같은 모드 다시</button>
         <button id="home-button" type="button">처음으로</button>
       </div>
+    </section>
+
+    <section id="screen-leaderboard" class="screen" hidden>
+      <h2>순위표</h2>
+      <p id="leaderboard-error" class="notice notice-error" hidden>기록을 저장할 수 없음</p>
+      <div id="leaderboard-tables"></div>
+      <button id="leaderboard-home-button" type="button">처음으로</button>
     </section>
   </main>
   <script src="questions.js"></script>
