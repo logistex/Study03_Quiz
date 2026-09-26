@@ -101,3 +101,26 @@ button.primary { background: var(--primary); border-color: var(--primary); color
 .choice.removed { opacity: 0.35; text-decoration: line-through; }
 
 .result-score.result-score-retry { font-size: 1.1rem; }
+
+#leaderboard-button { width: 100%; text-align: center; }
+
+.record-form { margin: 16px 0; }
+.record-form label { display: block; margin-bottom: 8px; }
+.record-row { display: flex; gap: 8px; }
+.record-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.record-row button { flex: 0 0 auto; }
+
+.board { margin-bottom: 20px; }
+.board h3 { font-size: 1rem; margin: 0 0 8px; }
+.board table { width: 100%; border-collapse: collapse; background: var(--surface); }
+.board th, .board td { border-bottom: 1px solid var(--border); padding: 8px; text-align: left; font-size: 0.95rem; }
+.board td:nth-child(2) { overflow-wrap: anywhere; }
+.board-empty { color: var(--muted); margin: 0; }

@@ -6,6 +6,10 @@ const CATEGORY_PREFIX = { "한국사": "kh", "세계지리": "wg", "과학": "sc
 const QUESTIONS_PER_CATEGORY = 10;
 const MODE_LABELS = { practice: "연습", speed: "스피드", hint: "힌트" };
 const SPEED_SECONDS = 15;
+const LEADERBOARD_SIZE = 5;
+const NAME_MAX_LENGTH = 10;
+const LEADERBOARD_KEY = "quiz.leaderboard";
+const RANKED_MODES = ["speed", "hint"];
 
 // ===== 2. 순수 로직 =====
 // Fisher–Yates. 원본은 두고 섞은 복사본을 돌려줍니다.
@@ -91,6 +95,56 @@ function pickHintRemovals(item, random = Math.random) {
 
 function wrongItems(results) {
   return results.filter(result => !result.isCorrect).map(result => result.item);
+}
+
+function leaderboardKey(mode, category) {
+  return `${mode}|${category}`;
+}
+
+function normalizeName(name) {
+  return String(name).trim();
+}
+
+function isValidName(name) {
+  const length = [...normalizeName(name)].length;
+  return length >= 1 && length <= NAME_MAX_LENGTH;
+}
+
+// 점수 내림차순, 동점이면 먼저 세운 기록(date가 이른 쪽)이 위. 상위 LEADERBOARD_SIZE건만 남깁니다.
+function insertRecord(list, record) {
+  return [...list, record]
+    .sort((a, b) => b.score - a.score || a.date.localeCompare(b.date))
+    .slice(0, LEADERBOARD_SIZE);
+}
+
+function isValidRecord(record) {
+  return Boolean(record) && typeof record.name === "string" &&
+    Number.isFinite(record.score) && typeof record.date === "string";
+}
+
+// 저장된 문자열을 순위표 객체로 바꿉니다. 깨진 값은 빈 순위표로 봅니다.
+function parseLeaderboard(raw) {
+  if (raw === null || raw === undefined) return {};
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    return {};
+  }
+  if (!data || typeof data !== "object" || Array.isArray(data)) return {};
+  const clean = {};
+  for (const [key, list] of Object.entries(data)) {
+    if (!Array.isArray(list)) continue;
+    clean[key] = list.filter(isValidRecord).reduce(insertRecord, []);
+  }
+  return clean;
+}
+
+function formatDate(iso) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const pad = n => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
 // ===== 3. 자체 점검 =====
@@ -269,6 +323,61 @@ selfTest("prepareRound는 이미 섞인 문항을 다시 섞어도 정답을 유
       check(item.choices[item.answer] === `${item.id} 정답`, `${item.id}: 정답 위치 틀림`);
     });
   }
+});
+
+selfTest("insertRecord는 점수 내림차순, 동점이면 먼저 세운 기록을 위에 둔다", check => {
+  const list = [
+    { name: "가", score: 7, date: "2026-09-01T00:00:00.000Z" },
+    { name: "나", score: 9, date: "2026-09-02T00:00:00.000Z" }
+  ];
+  const result = insertRecord(list, { name: "다", score: 7, date: "2026-09-03T00:00:00.000Z" });
+  check(result.map(r => r.name).join() === "나,가,다", `순서 ${result.map(r => r.name).join()}`);
+  check(list.length === 2, "원본이 바뀜");
+});
+
+selfTest("insertRecord는 상위 5건만 남긴다", check => {
+  let list = [];
+  for (let n = 1; n <= 6; n++) {
+    list = insertRecord(list, { name: `p${n}`, score: n, date: `2026-09-0${n}T00:00:00.000Z` });
+  }
+  check(list.length === 5, `길이 ${list.length}`);
+  check(list[0].name === "p6" && list[4].name === "p2", `순서 ${list.map(r => r.name).join()}`);
+  const after = insertRecord(list, { name: "low", score: 1, date: "2026-09-09T00:00:00.000Z" });
+  check(!after.some(r => r.name === "low"), "5위보다 낮은 기록이 들어감");
+});
+
+selfTest("insertRecord는 0.5점 단위 점수도 정렬한다", check => {
+  const result = insertRecord(
+    [{ name: "a", score: 7, date: "2026-09-01T00:00:00.000Z" }],
+    { name: "b", score: 7.5, date: "2026-09-02T00:00:00.000Z" }
+  );
+  check(result[0].name === "b", "7.5점이 7점보다 아래");
+});
+
+selfTest("parseLeaderboard는 깨진 값을 빈 순위표로 본다", check => {
+  check(JSON.stringify(parseLeaderboard(null)) === "{}", "null");
+  check(JSON.stringify(parseLeaderboard("{깨짐")) === "{}", "JSON 오류");
+  check(JSON.stringify(parseLeaderboard("[1,2]")) === "{}", "배열");
+  const parsed = parseLeaderboard(JSON.stringify({
+    "speed|과학": [{ name: "a", score: 5, date: "2026-09-01T00:00:00.000Z" }, { name: 3 }],
+    "hint|과학": "잘못됨"
+  }));
+  check(parsed["speed|과학"].length === 1, "잘못된 기록이 남음");
+  check(!("hint|과학" in parsed), "배열이 아닌 값이 남음");
+});
+
+selfTest("isValidName은 앞뒤 공백을 뺀 1~10자만 허용한다", check => {
+  check(!isValidName("   "), "공백만 있는 이름이 통과됨");
+  check(isValidName(" 민지 "), "민지가 거부됨");
+  check(isValidName("가나다라마바사아자차"), "10자가 거부됨");
+  check(!isValidName("가나다라마바사아자차카"), "11자가 통과됨");
+  check(normalizeName("  민지 ") === "민지", "앞뒤 공백이 남음");
+});
+
+selfTest("leaderboardKey와 formatDate", check => {
+  check(leaderboardKey("speed", "한국사") === "speed|한국사", "키 형식");
+  check(formatDate(new Date(2026, 8, 19, 23, 30).toISOString()) === "2026-09-19", "날짜 형식");
+  check(formatDate("잘못됨") === "", "잘못된 날짜");
 });
 
 // ===== 4. 상태 =====
@@ -480,6 +589,11 @@ function renderResult() {
   $("result-practice-note").hidden = state.mode !== "practice";
   $("retry-button").hidden = !(state.mode === "practice" && correct < total);
 
+  const canRecord = !state.isRetry && RANKED_MODES.includes(state.mode);
+  $("record-form").hidden = !canRecord;
+  $("record-error").hidden = true;
+  $("save-button").disabled = !isValidName($("record-name").value);
+
   const list = $("result-list");
   list.replaceChildren();
   state.results.forEach(result => {
@@ -497,6 +611,91 @@ function renderResult() {
   });
 
   showScreen("screen-result");
+}
+
+// 저장소를 못 쓰면 ok: false. 값이 깨져 있으면 ok: true, 빈 순위표입니다.
+function loadLeaderboard() {
+  try {
+    return { ok: true, data: parseLeaderboard(localStorage.getItem(LEADERBOARD_KEY)) };
+  } catch (error) {
+    return { ok: false, data: {} };
+  }
+}
+
+function saveLeaderboard(data) {
+  try {
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(data));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function saveRecord(event) {
+  event.preventDefault();
+  const name = $("record-name").value;
+  if (!isValidName(name)) return;
+
+  const loaded = loadLeaderboard();
+  const key = leaderboardKey(state.mode, state.category);
+  const data = loaded.data;
+  data[key] = insertRecord(data[key] || [], {
+    name: normalizeName(name),
+    score: state.score,
+    date: new Date().toISOString()
+  });
+
+  if (!loaded.ok || !saveLeaderboard(data)) {
+    $("record-error").hidden = false;
+    return;
+  }
+  $("save-button").disabled = true;
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const loaded = loadLeaderboard();
+  $("leaderboard-error").hidden = loaded.ok;
+
+  const container = $("leaderboard-tables");
+  container.replaceChildren();
+  for (const mode of RANKED_MODES) {
+    for (const category of CATEGORIES) {
+      const block = document.createElement("section");
+      block.className = "board";
+      const title = document.createElement("h3");
+      title.textContent = `${MODE_LABELS[mode]} · ${category}`;
+      block.append(title);
+
+      const records = loaded.data[leaderboardKey(mode, category)] || [];
+      if (records.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "board-empty";
+        empty.textContent = "기록 없음";
+        block.append(empty);
+      } else {
+        const table = document.createElement("table");
+        const head = table.createTHead().insertRow();
+        ["순위", "이름", "점수", "날짜"].forEach(text => {
+          const th = document.createElement("th");
+          th.scope = "col";
+          th.textContent = text;
+          head.append(th);
+        });
+        const body = table.createTBody();
+        records.forEach((record, i) => {
+          const row = body.insertRow();
+          [String(i + 1), record.name, String(record.score), formatDate(record.date)].forEach(text => {
+            row.insertCell().textContent = text;
+          });
+        });
+        block.append(table);
+      }
+      container.append(block);
+    }
+  }
+
+  showScreen("screen-leaderboard");
 }
 
 function onCategoryChosen(category) {
@@ -531,6 +730,12 @@ function init() {
   $("mode-back-button").addEventListener("click", () => showScreen("screen-start"));
   $("hint-button").addEventListener("click", useHint);
   $("retry-button").addEventListener("click", startRetry);
+  $("leaderboard-button").addEventListener("click", renderLeaderboard);
+  $("leaderboard-home-button").addEventListener("click", () => showScreen("screen-start"));
+  $("record-form").addEventListener("submit", saveRecord);
+  $("record-name").addEventListener("input", () => {
+    $("save-button").disabled = !isValidName($("record-name").value);
+  });
 }
 
 // ===== 6. 시작 =====
