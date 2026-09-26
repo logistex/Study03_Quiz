@@ -100,6 +100,15 @@ const QUESTIONS = [
     explanation: "김부식 등이 1145년 인종의 명으로 편찬한 정사체 역사서다.",
     source: { name: "한국민족문화대백과사전 「삼국사기」", url: "https://encykorea.aks.ac.kr/Article/E0026478" }
   },
+  {
+    id: "kh-12",
+    category: "한국사",
+    question: "612년 살수에서 수나라 군대를 크게 무찌른 고구려 장수는?",
+    choices: ["을지문덕", "연개소문", "계백", "김유신"],
+    answer: 0,
+    explanation: "을지문덕이 612년 살수(청천강)에서 수나라군을 물리쳤다.",
+    source: { name: "한국민족문화대백과사전 「살수대첩」", url: "https://encykorea.aks.ac.kr/Article/E0026415" }
+  },
 
   // ----- 세계지리 -----
   {
@@ -200,6 +209,15 @@ const QUESTIONS = [
     answer: 0,
     explanation: "1869년 11월 17일 개통해 지중해와 홍해를 잇는다.",
     source: { name: "Suez Canal Authority 「Canal History」", url: "https://www.suezcanal.gov.eg/English/About/SuezCanal/Pages/CanalHistory.aspx" }
+  },
+  {
+    id: "wg-12",
+    category: "세계지리",
+    question: "잠비아와 짐바브웨의 국경을 이루는 잠베지강에 있는 폭포는?",
+    choices: ["빅토리아 폭포", "나이아가라 폭포", "이구아수 폭포", "앙헬 폭포"],
+    answer: 0,
+    explanation: "잠베지강에 있으며 잠비아와 짐바브웨 국경을 이룬다.",
+    source: { name: "Zambia Tourism Agency 「Victoria Falls」", url: "https://www.zambiatourism.com/destinations/waterfalls/victoria-falls/" }
   },
 
   // ----- 과학 -----
@@ -302,6 +320,15 @@ const QUESTIONS = [
     explanation: "잠긴 물체는 밀어낸 액체의 무게만큼 부력을 받는다.",
     source: { name: "OpenStax University Physics 「Archimedes' Principle and Buoyancy」", url: "https://openstax.org/books/university-physics-volume-1/pages/14-4-archimedes-principle-and-buoyancy" }
   },
+  {
+    id: "sc-12",
+    category: "과학",
+    question: "1928년 알렉산더 플레밍이 푸른곰팡이에서 찾아낸 항생물질은?",
+    choices: ["페니실린", "스트렙토마이신", "테트라사이클린", "반코마이신"],
+    answer: 0,
+    explanation: "플레밍이 1928년 푸른곰팡이 배양접시에서 우연히 발견했다.",
+    source: { name: "Science History Institute 「Alexander Fleming」", url: "https://www.sciencehistory.org/education/scientific-biographies/alexander-fleming/" }
+  },
 
   // ----- 예술과 문화 -----
   {
@@ -402,5 +429,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "피카소가 1937년 파리 만국박람회 에스파냐관을 위해 그렸다.",
     source: { name: "Museo Reina Sofía 「Guernica」", url: "https://www.museoreinasofia.es/en/collections/artwork/guernica-0/" }
+  },
+  {
+    id: "ac-12",
+    category: "예술과 문화",
+    question: "2022년 유네스코 인류무형문화유산 대표목록에 오른, 춤과 노래와 연극을 아우르며 사회 문제를 해학적으로 풍자하는 한국 전통 연희는?",
+    choices: ["탈춤", "판소리", "줄타기", "사물놀이"],
+    answer: 0,
+    explanation: "2022년 제17차 유네스코 무형유산위원회에서 등재가 결정되었다.",
+    source: { name: "UNESCO 무형유산 「Talchum, mask dance drama in the Republic of Korea」", url: "https://ich.unesco.org/en/RL/talchum-mask-dance-drama-in-the-republic-of-korea-01742" }
   },
 ];
