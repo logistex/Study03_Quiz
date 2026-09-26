@@ -1,6 +1,6 @@
 ---
 description: questions.js의 문항을 CLAUDE.md 작성 규칙 10개로 점검한다 (읽기 전용)
-argument-hint: "[카테고리 또는 문항 id, 비우면 전체 40문항]"
+argument-hint: "[카테고리 또는 문항 id, 비우면 전체 문항]"
 allowed-tools: Read, Grep, Glob, Bash(node:*)
 ---
 
@@ -12,7 +12,7 @@ allowed-tools: Read, Grep, Glob, Bash(node:*)
 
 ## 대상
 
-`$ARGUMENTS`가 비어 있으면 40문항 전부. 값이 있으면 그것을 카테고리 이름(`한국사`, `세계지리`, `과학`, `예술과 문화`) 또는 문항 id(`kh-01` 꼴)로 보고 해당하는 문항만 점검한다.
+`$ARGUMENTS`가 비어 있으면 전체 문항. 값이 있으면 그것을 카테고리 이름(`한국사`, `세계지리`, `과학`, `예술과 문화`) 또는 문항 id(`kh-01` 꼴)로 보고 해당하는 문항만 점검한다.
 
 ## 순서
 
