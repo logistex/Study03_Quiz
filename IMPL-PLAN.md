@@ -115,7 +115,7 @@ node -e "const fs=require('fs'),vm=require('vm');const c=vm.createContext({});vm
 **Interfaces:**
 - Consumes: 없음
 - Produces:
-  - 상수 `CATEGORIES: string[]`, `CATEGORY_PREFIX: {[category]: string}`, `QUESTIONS_PER_CATEGORY = 10`, `MODE_LABELS: {practice: "연습"}`
+  - 상수 `CATEGORIES: string[]`, `CATEGORY_PREFIX: {[category]: string}`, `MODE_LABELS: {practice: "연습"}`
   - `selfTest(name: string, run: (check) => void)`: 점검을 등록합니다. `check(condition: boolean, message: string)`는 실패 메시지를 모읍니다.
   - `runSelfTests(): {passed: number, failed: number}`: 결과를 콘솔에 찍고 `globalThis.selfTestFailed`를 설정합니다.
   - `makeQuestion(category, number)`, `makeQuestionSet()`: 점검용 가짜 문항과 40문항 세트를 만듭니다.
@@ -137,7 +137,6 @@ const QUESTIONS = [
 // ===== 1. 상수 =====
 const CATEGORIES = ["한국사", "세계지리", "과학", "예술과 문화"];
 const CATEGORY_PREFIX = { "한국사": "kh", "세계지리": "wg", "과학": "sc", "예술과 문화": "ac" };
-const QUESTIONS_PER_CATEGORY = 10;
 const MODE_LABELS = { practice: "연습" };
 
 // ===== 2. 순수 로직 =====
@@ -188,9 +187,9 @@ function makeQuestion(category, number) {
   };
 }
 
-function makeQuestionSet() {
+function makeQuestionSet(perCategory = 10) {
   return CATEGORIES.flatMap(category =>
-    Array.from({ length: QUESTIONS_PER_CATEGORY }, (_, i) => makeQuestion(category, i + 1)));
+    Array.from({ length: perCategory }, (_, i) => makeQuestion(category, i + 1)));
 }
 
 selfTest("shuffle은 같은 원소를 모두 담은 새 배열을 반환한다", check => {
@@ -343,8 +342,8 @@ Expected: `통과 6, 실패 0`, 종료 코드 0.
 - Modify: `script.js` (2. 순수 로직 구역 끝, 3. 자체 점검 구역 끝)
 
 **Interfaces:**
-- Consumes: `CATEGORIES`, `CATEGORY_PREFIX`, `QUESTIONS_PER_CATEGORY`, `makeQuestionSet()`
-- Produces: `validateQuestions(questions): string[]`: 오류 메시지 목록을 반환합니다. 비어 있으면 통과입니다. 메시지는 `"<id>: <내용>"` 또는 `"<카테고리>: 문항 n개 (10개여야 함)"` 꼴입니다.
+- Consumes: `CATEGORIES`, `CATEGORY_PREFIX`, `makeQuestionSet(perCategory)`
+- Produces: `validateQuestions(questions): string[]`: 오류 메시지 목록을 반환합니다. 비어 있으면 통과입니다. 메시지는 `"<id>: <내용>"` 또는 `"<카테고리>: 문항 n개 (다른 카테고리와 같은 m개여야 함)"` 꼴입니다.
 
 - [ ] **Step 1: 실패하는 점검을 쓴다** (3. 자체 점검 구역 끝에 추가)
 
@@ -358,9 +357,19 @@ selfTest("validateQuestions: 배열이 아니면 오류", check => {
   check(validateQuestions(null).length > 0, "null이 통과됨");
 });
 
-selfTest("validateQuestions: 카테고리별 10개가 아니면 오류", check => {
+selfTest("validateQuestions: 카테고리마다 문항 수가 다르면 오류", check => {
   const errors = validateQuestions(makeQuestionSet().slice(1));
-  check(errors.some(e => e.startsWith("한국사: 문항 9개")), errors.join("; "));
+  check(errors.some(e => e === "한국사: 문항 9개 (다른 카테고리와 같은 10개여야 함)"), errors.join("; "));
+});
+
+selfTest("validateQuestions: 카테고리마다 12개여도 오류가 없다", check => {
+  const errors = validateQuestions(makeQuestionSet(12));
+  check(errors.length === 0, errors.join("; "));
+});
+
+selfTest("validateQuestions: 문항이 하나도 없으면 오류", check => {
+  const errors = validateQuestions([]);
+  check(errors.some(e => e === "문항이 없음"), errors.join("; "));
 });
 
 selfTest("validateQuestions: 보기 수, 보기 중복, answer 범위를 검사한다", check => {
@@ -442,9 +451,19 @@ function validateQuestions(questions) {
     if (!source || typeof source.url !== "string" || !source.url.startsWith("https://")) errors.push(`${label}: 출처 URL이 https://로 시작하지 않음`);
   });
 
-  for (const category of CATEGORIES) {
-    const count = questions.filter(q => q && q.category === category).length;
-    if (count !== QUESTIONS_PER_CATEGORY) errors.push(`${category}: 문항 ${count}개 (${QUESTIONS_PER_CATEGORY}개여야 함)`);
+  // 카테고리마다 문항 수가 같아야 합니다. 기준은 가장 많은 카테고리가 공유하는 수(최빈값)로 잡습니다.
+  // 그래야 한 카테고리만 어긋났을 때 그 카테고리만 오류로 잡힙니다.
+  const counts = CATEGORIES.map(category => questions.filter(q => q && q.category === category).length);
+  const expected = counts.slice().sort((a, b) =>
+    counts.filter(c => c === b).length - counts.filter(c => c === a).length || b - a)[0];
+  if (expected === 0) {
+    errors.push("문항이 없음");
+  } else {
+    CATEGORIES.forEach((category, i) => {
+      if (counts[i] !== expected) {
+        errors.push(`${category}: 문항 ${counts[i]}개 (다른 카테고리와 같은 ${expected}개여야 함)`);
+      }
+    });
   }
   return errors;
 }
@@ -639,7 +658,7 @@ Expected: `해설 60자 초과`가 없다. `최상급 확인`으로 나온 모�
   <main class="app">
     <section id="screen-start" class="screen">
       <h1>상식 퀴즈</h1>
-      <p class="lead">카테고리를 고르세요. 한 판은 10문제입니다.</p>
+      <p class="lead">카테고리를 고르세요. 한 판은 카테고리의 문항 전부입니다.</p>
       <p id="data-error" class="notice notice-error" hidden>문항 데이터 오류</p>
       <div id="category-buttons" class="button-list"></div>
       <p id="start-practice-note" class="notice">연습 모드 · 순위표에 기록되지 않음</p>
@@ -781,6 +800,7 @@ const state = {
   category: null,
   mode: "practice",
   round: [],
+  fullRoundLength: 0,  // 그 판의 전체 문항 수. 다시 풀기 때도 그대로 둡니다.
   index: 0,
   score: 0,
   results: [],       // { item, chosen, isCorrect, points }, 시간 초과면 chosen: null
@@ -810,6 +830,7 @@ function startRound(category, mode) {
   state.category = category;
   state.mode = mode;
   state.round = buildRound(QUESTIONS, category);
+  state.fullRoundLength = state.round.length;  // 다시 풀기 결과에서 분모로 씁니다.
   state.index = 0;
   state.score = 0;
   state.results = [];
@@ -1499,7 +1520,7 @@ function renderResult() {
   $("result-title").textContent = state.isRetry ? "다시 풀기 결과" : "결과";
   const score = $("result-score");
   score.textContent = state.isRetry
-    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${QUESTIONS_PER_CATEGORY}`
+    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${state.fullRoundLength}`
     : `${state.score} / ${total}`;
   score.classList.toggle("result-score-retry", state.isRetry);
   $("result-practice-note").hidden = state.mode !== "practice";
@@ -1922,7 +1943,7 @@ function renderResult() {
   $("result-title").textContent = state.isRetry ? "다시 풀기 결과" : "결과";
   const score = $("result-score");
   score.textContent = state.isRetry
-    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${QUESTIONS_PER_CATEGORY}`
+    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${state.fullRoundLength}`
     : `${state.score} / ${total}`;
   score.classList.toggle("result-score-retry", state.isRetry);
   $("result-practice-note").hidden = state.mode !== "practice";
