@@ -91,33 +91,6 @@ const QUESTIONS = [
     explanation: "대한민국 임시정부는 1919년 4월 중국 상하이에서 수립되었다.",
     source: { name: "한국민족문화대백과사전 「대한민국 임시정부」", url: "https://encykorea.aks.ac.kr/Article/E0015017" }
   },
-  {
-    id: "kh-11",
-    category: "한국사",
-    question: "1145년 고려 인종의 명을 받아 김부식 등이 편찬한 삼국시대 역사서는?",
-    choices: ["삼국사기", "삼국유사", "고려사", "동국통감"],
-    answer: 0,
-    explanation: "김부식 등이 1145년 인종의 명으로 편찬한 정사체 역사서다.",
-    source: { name: "한국민족문화대백과사전 「삼국사기」", url: "https://encykorea.aks.ac.kr/Article/E0026478" }
-  },
-  {
-    id: "kh-12",
-    category: "한국사",
-    question: "612년 살수에서 수나라 군대를 크게 무찌른 고구려 장수는?",
-    choices: ["을지문덕", "연개소문", "계백", "김유신"],
-    answer: 0,
-    explanation: "을지문덕이 612년 살수(청천강)에서 수나라군을 물리쳤다.",
-    source: { name: "한국민족문화대백과사전 「살수대첩」", url: "https://encykorea.aks.ac.kr/Article/E0026415" }
-  },
-  {
-    id: "kh-13",
-    category: "한국사",
-    question: "1861년 목판본으로 펴낸 전국 지도첩 「대동여지도」를 만든 조선 후기의 지리학자는?",
-    choices: ["김정호", "정상기", "신경준", "정약용"],
-    answer: 0,
-    explanation: "김정호가 1861년(철종 12)에 남북 22층으로 완성했다.",
-    source: { name: "한국민족문화대백과사전 「대동여지도」", url: "https://encykorea.aks.ac.kr/Article/E0014266" }
-  },
 
   // ----- 세계지리 -----
   {
@@ -209,33 +182,6 @@ const QUESTIONS = [
     answer: 0,
     explanation: "남극 조약은 1959년 12월 1일 워싱턴에서 12개국이 서명했다.",
     source: { name: "Secretariat of the Antarctic Treaty, 「The Antarctic Treaty」", url: "https://www.ats.aq/e/antarctictreaty.html" }
-  },
-  {
-    id: "wg-11",
-    category: "세계지리",
-    question: "지중해와 홍해를 이어 1869년에 개통한, 이집트를 가로지르는 운하는?",
-    choices: ["수에즈 운하", "파나마 운하", "코린토스 운하", "킬 운하"],
-    answer: 0,
-    explanation: "1869년 11월 17일 개통해 지중해와 홍해를 잇는다.",
-    source: { name: "Suez Canal Authority 「Canal History」", url: "https://www.suezcanal.gov.eg/English/About/SuezCanal/Pages/CanalHistory.aspx" }
-  },
-  {
-    id: "wg-12",
-    category: "세계지리",
-    question: "잠비아와 짐바브웨의 국경을 이루는 잠베지강에 있는 폭포는?",
-    choices: ["빅토리아 폭포", "나이아가라 폭포", "이구아수 폭포", "앙헬 폭포"],
-    answer: 0,
-    explanation: "잠베지강에 있으며 잠비아와 짐바브웨 국경을 이룬다.",
-    source: { name: "Zambia Tourism Agency 「Victoria Falls」", url: "https://www.zambiatourism.com/destinations/waterfalls/victoria-falls/" }
-  },
-  {
-    id: "wg-13",
-    category: "세계지리",
-    question: "남아메리카에서 적도가 지나가며, 나라 이름 자체가 에스파냐어로 '적도'를 뜻하는 나라는?",
-    choices: ["에콰도르", "콜롬비아", "베네수엘라", "볼리비아"],
-    answer: 0,
-    explanation: "나라 이름 에콰도르는 에스파냐어로 '적도'를 뜻한다.",
-    source: { name: "National Geographic Kids 「Ecuador」", url: "https://kids.nationalgeographic.com/geography/countries/article/ecuador" }
   },
 
   // ----- 과학 -----
@@ -329,33 +275,6 @@ const QUESTIONS = [
     explanation: "외핵은 주로 액체 상태의 철과 니켈로 이루어져 있다.",
     source: { name: "National Geographic Education 「Core」", url: "https://education.nationalgeographic.org/resource/core/" }
   },
-  {
-    id: "sc-11",
-    category: "과학",
-    question: "액체에 잠긴 물체가 받는 부력이 그 물체가 밀어낸 액체의 무게와 같다는 원리는?",
-    choices: ["아르키메데스의 원리", "베르누이의 원리", "하위헌스의 원리", "파스칼의 원리"],
-    answer: 0,
-    explanation: "잠긴 물체는 밀어낸 액체의 무게만큼 부력을 받는다.",
-    source: { name: "OpenStax University Physics 「Archimedes' Principle and Buoyancy」", url: "https://openstax.org/books/university-physics-volume-1/pages/14-4-archimedes-principle-and-buoyancy" }
-  },
-  {
-    id: "sc-12",
-    category: "과학",
-    question: "1928년 알렉산더 플레밍이 푸른곰팡이에서 찾아낸 항생물질은?",
-    choices: ["페니실린", "스트렙토마이신", "테트라사이클린", "반코마이신"],
-    answer: 0,
-    explanation: "플레밍이 1928년 푸른곰팡이 배양접시에서 우연히 발견했다.",
-    source: { name: "Science History Institute 「Alexander Fleming」", url: "https://www.sciencehistory.org/education/scientific-biographies/alexander-fleming/" }
-  },
-  {
-    id: "sc-13",
-    category: "과학",
-    question: "지금의 대륙들이 하나의 거대한 땅덩이에서 갈라져 이동했다는 대륙이동설을 내놓은 독일의 기상학자는?",
-    choices: ["알프레트 베게너", "아르투어 홈스", "찰스 라이엘", "해리 헤스"],
-    answer: 0,
-    explanation: "독일 기상학자 알프레트 베게너가 20세기 초에 내놓았다.",
-    source: { name: "USGS 「This Dynamic Earth: Historical perspective」", url: "https://pubs.usgs.gov/gip/dynamic/historical.html" }
-  },
 
   // ----- 예술과 문화 -----
   {
@@ -447,32 +366,5 @@ const QUESTIONS = [
     answer: 0,
     explanation: "종묘제례는 조선 역대 왕과 왕비의 신위를 모신 종묘에서 지내는 유교 의례이다.",
     source: { name: "한국민족문화대백과사전 「종묘제례」", url: "https://encykorea.aks.ac.kr/Article/E0052933" }
-  },
-  {
-    id: "ac-11",
-    category: "예술과 문화",
-    question: "1937년 에스파냐 내전 중 바스크 지방 소도시가 폭격당한 일을 주제로 「게르니카」를 그린 화가는?",
-    choices: ["파블로 피카소", "살바도르 달리", "프란시스코 고야", "호안 미로"],
-    answer: 0,
-    explanation: "피카소가 1937년 파리 만국박람회 에스파냐관을 위해 그렸다.",
-    source: { name: "Museo Reina Sofía 「Guernica」", url: "https://www.museoreinasofia.es/en/collections/artwork/guernica-0/" }
-  },
-  {
-    id: "ac-12",
-    category: "예술과 문화",
-    question: "2022년 유네스코 인류무형문화유산 대표목록에 오른, 춤과 노래와 연극을 아우르며 사회 문제를 해학적으로 풍자하는 한국 전통 연희는?",
-    choices: ["탈춤", "판소리", "줄타기", "사물놀이"],
-    answer: 0,
-    explanation: "2022년 제17차 유네스코 무형유산위원회에서 등재가 결정되었다.",
-    source: { name: "UNESCO 무형유산 「Talchum, mask dance drama in the Republic of Korea」", url: "https://ich.unesco.org/en/RL/talchum-mask-dance-drama-in-the-republic-of-korea-01742" }
-  },
-  {
-    id: "ac-13",
-    category: "예술과 문화",
-    question: "1824년 빈에서 초연된 교향곡 제9번의 마지막 악장에 실러의 시 「환희의 송가」를 노래로 붙인 작곡가는?",
-    choices: ["루트비히 판 베토벤", "프란츠 슈베르트", "요하네스 브람스", "펠릭스 멘델스존"],
-    answer: 0,
-    explanation: "베토벤이 교향곡 제9번 끝 악장을 합창으로 맺었다.",
-    source: { name: "WETA Classical 「The 200th Anniversary of the Premiere of Beethoven's Symphony No. 9」", url: "https://weta.org/fm/classical-score/may-7-1824-200th-anniversary-premiere-beethovens-symphony-no-9" }
   },
 ];
