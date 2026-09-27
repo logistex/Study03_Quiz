@@ -92,6 +92,16 @@ const QUESTIONS = [
     source: { name: "한국민족문화대백과사전 「대한민국 임시정부」", url: "https://encykorea.aks.ac.kr/Article/E0015017" }
   },
 
+  {
+    id: "kh-11",
+    category: "한국사",
+    question: "고려 인종의 명을 받아 1145년에 『삼국사기』를 편찬한 인물은?",
+    choices: ["김부식", "일연", "이규보", "이제현"],
+    answer: 0,
+    explanation: "1145년 고려 인종의 명으로 김부식 등이 「삼국사기」를 편찬했다.",
+    source: { name: "국사편찬위원회 우리역사넷 「삼국사기」", url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_r200340&code=kc_age_20" }
+  },
+
   // ----- 세계지리 -----
   {
     id: "wg-01",
@@ -182,6 +192,16 @@ const QUESTIONS = [
     answer: 0,
     explanation: "남극 조약은 1959년 12월 1일 워싱턴에서 12개국이 서명했다.",
     source: { name: "Secretariat of the Antarctic Treaty, 「The Antarctic Treaty」", url: "https://www.ats.aq/e/antarctictreaty.html" }
+  },
+
+  {
+    id: "wg-11",
+    category: "세계지리",
+    question: "이집트의 수에즈 지협을 가로질러 1869년에 완공된 수에즈 운하가 잇는 두 바다는?",
+    choices: ["지중해와 홍해", "지중해와 흑해", "홍해와 아라비아해", "흑해와 카스피해"],
+    answer: 0,
+    explanation: "수에즈 운하는 이집트의 수에즈 지협을 가로질러 지중해와 홍해를 잇는다.",
+    source: { name: "브리태니커 「Suez Canal」", url: "https://www.britannica.com/topic/Suez-Canal" }
   },
 
   // ----- 과학 -----
@@ -276,6 +296,16 @@ const QUESTIONS = [
     source: { name: "National Geographic Education 「Core」", url: "https://education.nationalgeographic.org/resource/core/" }
   },
 
+  {
+    id: "sc-11",
+    category: "과학",
+    question: "노벨위원회가 1921년 노벨 물리학상을 아인슈타인에게 준 업적으로 밝힌 것은?",
+    choices: ["광전 효과 법칙의 발견", "특수 상대성 이론의 수립", "일반 상대성 이론의 검증", "브라운 운동의 이론적 설명"],
+    answer: 0,
+    explanation: "노벨위원회는 광전 효과 법칙의 발견을 수상 업적으로 밝혔다.",
+    source: { name: "The Nobel Prize, 「The Nobel Prize in Physics 1921」", url: "https://www.nobelprize.org/prizes/physics/1921/summary/" }
+  },
+
   // ----- 예술과 문화 -----
   {
     id: "ac-01",
@@ -366,5 +396,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "종묘제례는 조선 역대 왕과 왕비의 신위를 모신 종묘에서 지내는 유교 의례이다.",
     source: { name: "한국민족문화대백과사전 「종묘제례」", url: "https://encykorea.aks.ac.kr/Article/E0052933" }
+  },
+  {
+    id: "ac-11",
+    category: "예술과 문화",
+    question: "1889년 6월 생레미에서 반 고흐가 그린 「별이 빛나는 밤」을 소장한 미술관은?",
+    choices: ["뉴욕 현대미술관(MoMA)", "암스테르담 반 고흐 미술관", "파리 오르세 미술관", "런던 내셔널 갤러리"],
+    answer: 0,
+    explanation: "1941년 뉴욕 현대미술관이 사들여 지금까지 소장하고 있다.",
+    source: { name: "The Museum of Modern Art, 「Vincent van Gogh. The Starry Night」", url: "https://www.moma.org/collection/works/79802" }
   },
 ];
