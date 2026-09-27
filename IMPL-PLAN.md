@@ -16,7 +16,7 @@
 - `file://`로 열어 동작해야 합니다. `fetch()`, `import`/`export`, `<script type="module">`을 쓰지 않습니다.
 - `index.html`은 `questions.js`를 `script.js`보다 먼저 로드합니다.
 - 카테고리는 `한국사`, `세계지리`, `과학`, `예술과 문화`이고, id 접두어는 차례대로 `kh`, `wg`, `sc`, `ac`입니다.
-- 카테고리마다 10문항, 총 40문항입니다. 한 판은 한 카테고리의 10문항 전부입니다.
+- 카테고리마다 문항 수가 같습니다. 한 판은 한 카테고리의 문항 전부입니다.
 - 점수: 맞히면 1점, 힌트 모드에서 힌트를 쓰고 맞히면 0.5점, 틀리면(시간 초과 포함) 0점입니다.
 - 스피드 모드는 문항마다 15초입니다.
 - 순위표는 스피드·힌트 모드만 대상입니다. 모드 × 카테고리별로 상위 5건을 보여 주고, 점수 내림차순, 동점이면 먼저 세운 기록이 위입니다.
@@ -24,7 +24,7 @@
 - 화면 문구는 다음 그대로 씁니다: `순위표에 기록되지 않음`, `정답!`, `오답`, `시간 초과`, `문항 데이터 오류`, `기록을 저장할 수 없음`, `기록 없음`, `다시 풀기`
 - 사용자 입력(이름)과 문항 텍스트는 `textContent`로만 화면에 넣습니다. `innerHTML`은 쓰지 않습니다.
 - 휴대폰 폭 360px에서 가로 스크롤이 생기면 안 됩니다.
-- 태스크마다 **점검 명령**이 기대한 결과로 끝난 뒤 그 태스크에서 바꾼 파일만 커밋합니다. 커밋 메시지는 `feat: <태스크 이름>`(문항 태스크는 `content: <카테고리> 10문항`) 꼴입니다. Task 4~6은 실제 데이터 점검이 의도대로 실패한 상태에서 커밋합니다.
+- 태스크마다 **점검 명령**이 기대한 결과로 끝난 뒤 그 태스크에서 바꾼 파일만 커밋합니다. 커밋 메시지는 `feat: <태스크 이름>`(문항 태스크는 `content: <카테고리> <문항 수>문항`) 꼴입니다. Task 4~6은 실제 데이터 점검이 의도대로 실패한 상태에서 커밋합니다.
 - 단계(1·2·3)가 끝나면 실행을 멈추고, 사용자가 "브라우저에서 직접 확인할 항목"을 확인한 뒤에 다음 단계로 넘어갑니다.
 
 ### 점검 명령
@@ -45,7 +45,7 @@ node -e "const fs=require('fs'),vm=require('vm');const c=vm.createContext({});vm
 
 ### 문항 작성 절차 (태스크 4~7 공통)
 
-1. 카테고리 안에서 주제가 겹치지 않게 10개를 고릅니다. 난이도는 대학 1학년이 "들어 본 적은 있는" 수준입니다.
+1. 카테고리 안에서 주제가 겹치지 않게 그 태스크에 적힌 개수만큼 고릅니다. 난이도는 대학 1학년이 "들어 본 적은 있는" 수준입니다.
 2. 문항마다 WebSearch로 출처를 찾고, WebFetch로 **그 사실이 적힌 페이지**를 직접 열어 정답을 확인합니다.
    - 우선 쓸 출처: 국사편찬위원회 우리역사넷(contents.history.go.kr), 한국민족문화대백과사전(encykorea.aks.ac.kr), 국가유산청, 브리태니커(britannica.com), 유네스코 세계유산센터(whc.unesco.org), NASA, 국제기구·정부 기관 누리집, 미술관·박물관 공식 누리집
    - 위키백과, 나무위키, 블로그, 커뮤니티 글은 출처로 쓰지 않습니다.
@@ -76,28 +76,28 @@ node -e "const fs=require('fs'),vm=require('vm');const c=vm.createContext({});vm
 # 1단계: 연습 모드와 점수
 
 **만들 것**
-- `questions.js`: 40문항(카테고리별 10문항, 출처 확인 완료)
+- `questions.js`: 카테고리마다 같은 수의 문항(출처 확인 완료)
 - `script.js`: 섞기, 한 판 만들기, 점수 계산, 문항 검사, 자체 점검 틀, 연습 모드 화면 조작
 - `index.html`: 시작, 문제, 결과의 세 화면
 - `style.css`: 기본 배치, 정답/오답 표시, 휴대폰 폭 대응
 
 **완료 기준**
-- [ ] 시작 화면에서 카테고리를 고르면 연습 모드 10문제가 섞여서 나온다.
+- [ ] 시작 화면에서 카테고리를 고르면 연습 모드로 그 카테고리 문항 전부가 섞여서 나온다.
 - [ ] 답을 고르면 정답 여부, 한 줄 해설, 출처가 바로 나오고 보기가 잠긴다.
-- [ ] 결과 화면에 "n / 10"과 "순위표에 기록되지 않음"이 나온다. 시작 화면에도 같은 문구가 있다.
-- [ ] `questions.js`에 40문항이 모두 있고 `validateQuestions`를 통과한다.
-- [ ] 40문항 모두 검수표의 세 항목(정답 하나뿐, 출처 확인, 최상급 기준·시점)을 통과한다.
+- [ ] 결과 화면에 "맞힌 수 / 한 판의 문항 수"와 "순위표에 기록되지 않음"이 나온다. 시작 화면에도 같은 문구가 있다.
+- [ ] `questions.js`의 문항이 카테고리마다 같은 수로 있고 `validateQuestions`를 통과한다.
+- [ ] 모든 문항이 검수표의 세 항목(정답 하나뿐, 출처 확인, 최상급 기준·시점)을 통과한다.
 - [ ] 점검 명령이 `실패 0`으로 끝난다.
 
 **브라우저에서 직접 확인할 항목** (탐색기에서 `index.html`을 더블클릭해서 엽니다)
 - [ ] 시작 화면에 카테고리 버튼 4개와 "연습 모드 · 순위표에 기록되지 않음"이 보인다.
-- [ ] [한국사]를 누르면 상단에 "한국사 · 연습", "1 / 10", "점수 0"이 보인다.
+- [ ] [한국사]를 누르면 상단에 "한국사 · 연습", 진행(한 판이 10문항이면 "1 / 10"), "점수 0"이 보인다.
 - [ ] 정답을 고르면 그 보기가 초록색이 되고 "정답" 글자가 붙는다. 위에 "정답!"이 나오고, 해설 한 줄과 출처 링크가 보인다.
 - [ ] 오답을 고르면 고른 보기는 빨간색과 "오답", 정답 보기는 초록색과 "정답"으로 표시되고, "오답"이 나온다.
 - [ ] 답을 고른 뒤 다른 보기를 눌러도 아무 변화가 없다.
 - [ ] 출처 링크를 누르면 새 탭에서 출처 페이지가 열린다.
-- [ ] 10번째 문항에서는 버튼이 [결과 보기]로 바뀐다.
-- [ ] 결과 화면의 "n / 10"이 실제로 맞힌 개수와 같고, "순위표에 기록되지 않음"과 문항별 정답/오답 목록이 보인다.
+- [ ] 마지막 문항에서는 버튼이 [결과 보기]로 바뀐다.
+- [ ] 결과 화면의 점수(한 판이 10문항이면 "n / 10")가 실제로 맞힌 개수와 같고, "순위표에 기록되지 않음"과 문항별 정답/오답 목록이 보인다.
 - [ ] [같은 모드 다시]를 누르면 문항 순서와 보기 순서가 앞 판과 다르다.
 - [ ] [처음으로]를 누르면 시작 화면으로 돌아간다.
 - [ ] 브라우저 개발자 도구(F12)의 기기 툴바로 폭을 360px로 줄여도 가로 스크롤이 생기지 않고 버튼이 다 보인다.
@@ -115,7 +115,7 @@ node -e "const fs=require('fs'),vm=require('vm');const c=vm.createContext({});vm
 **Interfaces:**
 - Consumes: 없음
 - Produces:
-  - 상수 `CATEGORIES: string[]`, `CATEGORY_PREFIX: {[category]: string}`, `QUESTIONS_PER_CATEGORY = 10`, `MODE_LABELS: {practice: "연습"}`
+  - 상수 `CATEGORIES: string[]`, `CATEGORY_PREFIX: {[category]: string}`, `MODE_LABELS: {practice: "연습"}`
   - `selfTest(name: string, run: (check) => void)`: 점검을 등록합니다. `check(condition: boolean, message: string)`는 실패 메시지를 모읍니다.
   - `runSelfTests(): {passed: number, failed: number}`: 결과를 콘솔에 찍고 `globalThis.selfTestFailed`를 설정합니다.
   - `makeQuestion(category, number)`, `makeQuestionSet()`: 점검용 가짜 문항과 40문항 세트를 만듭니다.
@@ -137,7 +137,6 @@ const QUESTIONS = [
 // ===== 1. 상수 =====
 const CATEGORIES = ["한국사", "세계지리", "과학", "예술과 문화"];
 const CATEGORY_PREFIX = { "한국사": "kh", "세계지리": "wg", "과학": "sc", "예술과 문화": "ac" };
-const QUESTIONS_PER_CATEGORY = 10;
 const MODE_LABELS = { practice: "연습" };
 
 // ===== 2. 순수 로직 =====
@@ -188,9 +187,9 @@ function makeQuestion(category, number) {
   };
 }
 
-function makeQuestionSet() {
+function makeQuestionSet(perCategory = 10) {
   return CATEGORIES.flatMap(category =>
-    Array.from({ length: QUESTIONS_PER_CATEGORY }, (_, i) => makeQuestion(category, i + 1)));
+    Array.from({ length: perCategory }, (_, i) => makeQuestion(category, i + 1)));
 }
 
 selfTest("shuffle은 같은 원소를 모두 담은 새 배열을 반환한다", check => {
@@ -343,8 +342,8 @@ Expected: `통과 6, 실패 0`, 종료 코드 0.
 - Modify: `script.js` (2. 순수 로직 구역 끝, 3. 자체 점검 구역 끝)
 
 **Interfaces:**
-- Consumes: `CATEGORIES`, `CATEGORY_PREFIX`, `QUESTIONS_PER_CATEGORY`, `makeQuestionSet()`
-- Produces: `validateQuestions(questions): string[]`: 오류 메시지 목록을 반환합니다. 비어 있으면 통과입니다. 메시지는 `"<id>: <내용>"` 또는 `"<카테고리>: 문항 n개 (10개여야 함)"` 꼴입니다.
+- Consumes: `CATEGORIES`, `CATEGORY_PREFIX`, `makeQuestionSet(perCategory)`
+- Produces: `validateQuestions(questions): string[]`: 오류 메시지 목록을 반환합니다. 비어 있으면 통과입니다. 메시지는 `"<id>: <내용>"` 또는 `"<카테고리>: 문항 n개 (다른 카테고리와 같은 m개여야 함)"` 꼴입니다.
 
 - [ ] **Step 1: 실패하는 점검을 쓴다** (3. 자체 점검 구역 끝에 추가)
 
@@ -358,9 +357,25 @@ selfTest("validateQuestions: 배열이 아니면 오류", check => {
   check(validateQuestions(null).length > 0, "null이 통과됨");
 });
 
-selfTest("validateQuestions: 카테고리별 10개가 아니면 오류", check => {
+selfTest("validateQuestions: 카테고리마다 문항 수가 다르면 오류", check => {
   const errors = validateQuestions(makeQuestionSet().slice(1));
-  check(errors.some(e => e.startsWith("한국사: 문항 9개")), errors.join("; "));
+  check(errors.some(e => e === "한국사: 문항 9개 (다른 카테고리와 같은 10개여야 함)"), errors.join("; "));
+});
+
+selfTest("validateQuestions: 카테고리마다 12개여도 오류가 없다", check => {
+  const errors = validateQuestions(makeQuestionSet(12));
+  check(errors.length === 0, errors.join("; "));
+});
+
+selfTest("validateQuestions: 문항이 하나도 없으면 오류", check => {
+  const errors = validateQuestions([]);
+  check(errors.some(e => e === "문항이 없음"), errors.join("; "));
+});
+
+selfTest("validateQuestions: 한 카테고리만 채워져 있으면 빈 카테고리를 가리킨다", check => {
+  const errors = validateQuestions(makeQuestionSet().filter(q => q.category === "한국사"));
+  check(errors.some(e => e === "세계지리: 문항 0개 (다른 카테고리와 같은 10개여야 함)"), errors.join("; "));
+  check(!errors.includes("문항이 없음"), errors.join("; "));
 });
 
 selfTest("validateQuestions: 보기 수, 보기 중복, answer 범위를 검사한다", check => {
@@ -442,9 +457,22 @@ function validateQuestions(questions) {
     if (!source || typeof source.url !== "string" || !source.url.startsWith("https://")) errors.push(`${label}: 출처 URL이 https://로 시작하지 않음`);
   });
 
-  for (const category of CATEGORIES) {
-    const count = questions.filter(q => q && q.category === category).length;
-    if (count !== QUESTIONS_PER_CATEGORY) errors.push(`${category}: 문항 ${count}개 (${QUESTIONS_PER_CATEGORY}개여야 함)`);
+  // 카테고리마다 문항 수가 같아야 합니다. 기준은 가장 많은 카테고리가 공유하는 수(최빈값)로 잡습니다.
+  // 그래야 한 카테고리만 어긋났을 때 그 카테고리만 오류로 잡힙니다.
+  const counts = CATEGORIES.map(category => questions.filter(q => q && q.category === category).length);
+  const mostShared = counts.slice().sort((a, b) =>
+    counts.filter(c => c === b).length - counts.filter(c => c === a).length || b - a)[0];
+  // 카테고리 절반 이상이 비어 있으면 최빈값이 0입니다. 그때는 가장 많이 채워진 카테고리를
+  // 기준으로 삼아 "문항이 없음" 대신 빈 카테고리를 가리킵니다.
+  const expected = mostShared || Math.max(...counts);
+  if (expected === 0) {
+    errors.push("문항이 없음");
+  } else {
+    CATEGORIES.forEach((category, i) => {
+      if (counts[i] !== expected) {
+        errors.push(`${category}: 문항 ${counts[i]}개 (다른 카테고리와 같은 ${expected}개여야 함)`);
+      }
+    });
   }
   return errors;
 }
@@ -639,7 +667,7 @@ Expected: `해설 60자 초과`가 없다. `최상급 확인`으로 나온 모�
   <main class="app">
     <section id="screen-start" class="screen">
       <h1>상식 퀴즈</h1>
-      <p class="lead">카테고리를 고르세요. 한 판은 10문제입니다.</p>
+      <p class="lead">카테고리를 고르세요. 한 판은 카테고리의 문항 전부입니다.</p>
       <p id="data-error" class="notice notice-error" hidden>문항 데이터 오류</p>
       <div id="category-buttons" class="button-list"></div>
       <p id="start-practice-note" class="notice">연습 모드 · 순위표에 기록되지 않음</p>
@@ -781,6 +809,7 @@ const state = {
   category: null,
   mode: "practice",
   round: [],
+  fullRoundLength: 0,  // 그 판의 전체 문항 수. 다시 풀기 때도 그대로 둡니다.
   index: 0,
   score: 0,
   results: [],       // { item, chosen, isCorrect, points }, 시간 초과면 chosen: null
@@ -810,6 +839,7 @@ function startRound(category, mode) {
   state.category = category;
   state.mode = mode;
   state.round = buildRound(QUESTIONS, category);
+  state.fullRoundLength = state.round.length;  // 다시 풀기 결과에서 분모로 씁니다.
   state.index = 0;
   state.score = 0;
   state.results = [];
@@ -1004,11 +1034,11 @@ Expected: `통과 12, 실패 0`, 종료 코드 0. (Node에는 `document`가 없�
 - [ ] 스피드: 한 판이 끝나 결과 화면에 있는 동안 콘솔에 오류가 없고, 새 판을 시작하면 타이머가 하나만 돈다(1초에 1씩 준다).
 - [ ] 힌트: [힌트 (오답 2개 지우기)] 버튼을 누르면 오답 보기 2개가 흐려지고 줄이 그어지며 눌리지 않는다. 정답 보기는 항상 남아 있다.
 - [ ] 힌트: 버튼이 "힌트 사용함"으로 바뀌고 다시 눌리지 않는다. 다음 문항에서는 다시 쓸 수 있다.
-- [ ] 힌트: 힌트를 쓰고 맞히면 점수가 0.5 오르고, 쓰지 않고 맞히면 1 오른다. 결과가 "7.5 / 10"처럼 0.5 단위로 나온다.
+- [ ] 힌트: 힌트를 쓰고 맞히면 점수가 0.5 오르고, 쓰지 않고 맞히면 1 오른다. 결과가 한 판이 10문항이면 "7.5 / 10"처럼 0.5 단위로 나온다.
 - [ ] 힌트: 결과 목록에 힌트를 쓰고 맞힌 문항은 "(힌트 0.5점)"이 붙는다.
 - [ ] 연습: 일부러 2~3문제를 틀리면 결과 화면에 [틀린 문제 다시 풀기]가 나온다.
 - [ ] 연습: 다시 풀기에서는 틀린 문항만 나오고, 상단에 "· 다시 풀기"와 "채점 안 함"이 보인다.
-- [ ] 연습: 다시 풀기 결과에 "3문제 중 2문제 맞힘 · 이번 판 점수 7 / 10"처럼 처음 점수가 그대로 나온다.
+- [ ] 연습: 다시 풀기 결과에 한 판이 10문항이면 "3문제 중 2문제 맞힘 · 이번 판 점수 7 / 10"처럼 처음 점수가 그대로 나온다.
 - [ ] 연습: 또 틀린 문항이 있으면 버튼이 다시 나오고, 다 맞히면 버튼이 사라진다.
 
 ---
@@ -1499,7 +1529,7 @@ function renderResult() {
   $("result-title").textContent = state.isRetry ? "다시 풀기 결과" : "결과";
   const score = $("result-score");
   score.textContent = state.isRetry
-    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${QUESTIONS_PER_CATEGORY}`
+    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${state.fullRoundLength}`
     : `${state.score} / ${total}`;
   score.classList.toggle("result-score-retry", state.isRetry);
   $("result-practice-note").hidden = state.mode !== "practice";
@@ -1922,7 +1952,7 @@ function renderResult() {
   $("result-title").textContent = state.isRetry ? "다시 풀기 결과" : "결과";
   const score = $("result-score");
   score.textContent = state.isRetry
-    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${QUESTIONS_PER_CATEGORY}`
+    ? `${total}문제 중 ${correct}문제 맞힘 · 이번 판 점수 ${state.score} / ${state.fullRoundLength}`
     : `${state.score} / ${total}`;
   score.classList.toggle("result-score-retry", state.isRetry);
   $("result-practice-note").hidden = state.mode !== "practice";
