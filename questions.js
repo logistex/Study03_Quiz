@@ -110,6 +110,15 @@ const QUESTIONS = [
     explanation: "1377년 청주 흥덕사에서 금속활자로 찍었고, 하권이 프랑스 국립도서관에 있다.",
     source: { name: "한국민족문화대백과사전 「직지심체요절 권하」", url: "https://encykorea.aks.ac.kr/Article/E0071845" }
   },
+  {
+    id: "kh-13",
+    category: "한국사",
+    question: "1861년 전국을 22첩으로 나누어 목판으로 찍어 낸 「대동여지도」를 만든 인물은?",
+    choices: ["김정호", "정상기", "이중환", "신경준"],
+    answer: 0,
+    explanation: "김정호는 지도에 10리마다 점을 찍어 거리를 쉽게 헤아릴 수 있게 했다.",
+    source: { name: "한국민족문화대백과사전 「대동여지도」", url: "https://encykorea.aks.ac.kr/Article/E0014266" }
+  },
 
   // ----- 세계지리 -----
   {
@@ -220,6 +229,15 @@ const QUESTIONS = [
     answer: 0,
     explanation: "잠비아와 짐바브웨 국경을 흐르는 잠베지강에 있는 폭포로, 세계유산이다.",
     source: { name: "UNESCO World Heritage Centre, 「Mosi-oa-Tunya / Victoria Falls」", url: "https://whc.unesco.org/en/list/509/" }
+  },
+  {
+    id: "wg-13",
+    category: "세계지리",
+    question: "1978년 유네스코 세계유산이 된 화산섬 무리인 갈라파고스 제도는 어느 나라에 속하는가?",
+    choices: ["에콰도르", "페루", "칠레", "콜롬비아"],
+    answer: 0,
+    explanation: "갈라파고스 제도는 에콰도르 본토에서 약 1,000km 떨어진 에콰도르의 주이다.",
+    source: { name: "유네스코 세계유산센터 「Galápagos Islands」", url: "https://whc.unesco.org/en/list/1/" }
   },
 
   // ----- 과학 -----
@@ -332,6 +350,15 @@ const QUESTIONS = [
     explanation: "플레밍은 곰팡이가 포도상구균이 자라지 못하게 막는 것을 보고 이 물질을 찾아냈다.",
     source: { name: "Britannica, 「Alexander Fleming」", url: "https://www.britannica.com/biography/Alexander-Fleming" }
   },
+  {
+    id: "sc-13",
+    category: "과학",
+    question: "1935년에 고안된 지진 규모 척도에 이름이 붙은 미국 지진학자는?",
+    choices: ["리히터", "메르칼리", "베게너", "모호로비치치"],
+    answer: 0,
+    explanation: "리히터 규모는 1935년에 고안된 로그 척도로, 지진의 크기를 나타낸다.",
+    source: { name: "미국 지질조사국(USGS) 「Moment magnitude, Richter scale」", url: "https://www.usgs.gov/faqs/moment-magnitude-richter-scale-what-are-different-magnitude-scales-and-why-are-there-so-many" }
+  },
 
   // ----- 예술과 문화 -----
   {
@@ -441,5 +468,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "김정희는 이상적의 인품을 추워진 뒤에도 늦게 낙엽 지는 소나무와 잣나무의 지조에 비유했다.",
     source: { name: "한국민족문화대백과사전 「김정희 필 세한도」", url: "https://encykorea.aks.ac.kr/Article/E0038956" }
+  },
+  {
+    id: "ac-13",
+    category: "예술과 문화",
+    question: "1937년 독일 공군이 스페인 바스크 지방의 한 도시를 폭격하자, 그 도시 이름을 제목으로 한 대작을 그린 화가는?",
+    choices: ["파블로 피카소", "살바도르 달리", "후안 그리스", "프란시스코 고야"],
+    answer: 0,
+    explanation: "「게르니카」는 피카소가 1937년 폭격 뒤 그렸고, 레이나 소피아 미술관에 있다.",
+    source: { name: "레이나 소피아 미술관 「Guernica」", url: "https://www.museoreinasofia.es/colecciones/obra/guernica/" }
   },
 ];
