@@ -101,6 +101,15 @@ const QUESTIONS = [
     explanation: "1145년 고려 인종의 명으로 김부식 등이 「삼국사기」를 편찬했다.",
     source: { name: "국사편찬위원회 우리역사넷 「삼국사기」", url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_r200340&code=kc_age_20" }
   },
+  {
+    id: "kh-12",
+    category: "한국사",
+    question: "1377년 청주 흥덕사에서 금속활자로 찍어 낸, 승려 백운 경한이 엮은 책은?",
+    choices: ["직지심체요절", "상정고금예문", "동국이상국집", "삼국유사"],
+    answer: 0,
+    explanation: "1377년 청주 흥덕사에서 금속활자로 찍었고, 하권이 프랑스 국립도서관에 있다.",
+    source: { name: "한국민족문화대백과사전 「직지심체요절 권하」", url: "https://encykorea.aks.ac.kr/Article/E0071845" }
+  },
 
   // ----- 세계지리 -----
   {
@@ -202,6 +211,15 @@ const QUESTIONS = [
     answer: 0,
     explanation: "수에즈 운하는 이집트의 수에즈 지협을 가로질러 지중해와 홍해를 잇는다.",
     source: { name: "브리태니커 「Suez Canal」", url: "https://www.britannica.com/topic/Suez-Canal" }
+  },
+  {
+    id: "wg-12",
+    category: "세계지리",
+    question: "잠비아와 짐바브웨의 국경에 있는 빅토리아 폭포는 어느 강에 있는가?",
+    choices: ["잠베지강", "림포포강", "오렌지강", "콩고강"],
+    answer: 0,
+    explanation: "잠비아와 짐바브웨 국경을 흐르는 잠베지강에 있는 폭포로, 세계유산이다.",
+    source: { name: "UNESCO World Heritage Centre, 「Mosi-oa-Tunya / Victoria Falls」", url: "https://whc.unesco.org/en/list/509/" }
   },
 
   // ----- 과학 -----
@@ -305,6 +323,15 @@ const QUESTIONS = [
     explanation: "노벨위원회는 광전 효과 법칙의 발견을 수상 업적으로 밝혔다.",
     source: { name: "The Nobel Prize, 「The Nobel Prize in Physics 1921」", url: "https://www.nobelprize.org/prizes/physics/1921/summary/" }
   },
+  {
+    id: "sc-12",
+    category: "과학",
+    question: "1928년 플레밍이 포도상구균 배양 접시에 핀 곰팡이에서 발견해 이름 붙인 물질은?",
+    choices: ["페니실린", "스트렙토마이신", "테트라사이클린", "반코마이신"],
+    answer: 0,
+    explanation: "플레밍은 곰팡이가 포도상구균이 자라지 못하게 막는 것을 보고 이 물질을 찾아냈다.",
+    source: { name: "Britannica, 「Alexander Fleming」", url: "https://www.britannica.com/biography/Alexander-Fleming" }
+  },
 
   // ----- 예술과 문화 -----
   {
@@ -405,5 +432,14 @@ const QUESTIONS = [
     answer: 0,
     explanation: "1941년 뉴욕 현대미술관이 사들여 지금까지 소장하고 있다.",
     source: { name: "The Museum of Modern Art, 「Vincent van Gogh. The Starry Night」", url: "https://www.moma.org/collection/works/79802" }
+  },
+  {
+    id: "ac-12",
+    category: "예술과 문화",
+    question: "제주도에 유배 중이던 김정희가 1844년 제자 이상적에게 답례로 그려 준 그림은?",
+    choices: ["세한도", "몽유도원도", "고사관수도", "미인도"],
+    answer: 0,
+    explanation: "김정희는 이상적의 인품을 추워진 뒤에도 늦게 낙엽 지는 소나무와 잣나무의 지조에 비유했다.",
+    source: { name: "한국민족문화대백과사전 「김정희 필 세한도」", url: "https://encykorea.aks.ac.kr/Article/E0038956" }
   },
 ];
