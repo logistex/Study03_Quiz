@@ -13,8 +13,8 @@
       <h1>상식 퀴즈</h1>
       <p class="lead">카테고리를 고르세요. 한 판은 카테고리의 문항 전부입니다.</p>
       <p id="data-error" class="notice notice-error" hidden>문항 데이터 오류</p>
-      <div id="category-buttons" class="button-list"></div>
-      <button id="leaderboard-button" type="button">순위표 보기</button>
+      <div id="category-buttons" class="button-list category-list"></div>
+      <button id="leaderboard-button" type="button" class="secondary">순위표 보기</button>
     </section>
 
     <section id="screen-mode" class="screen" hidden>
@@ -34,7 +34,7 @@
           <span>문항마다 힌트 1번, 힌트를 쓰고 맞히면 0.5점</span>
         </button>
       </div>
-      <button id="mode-back-button" type="button">뒤로</button>
+      <button id="mode-back-button" type="button" class="secondary">뒤로</button>
     </section>
 
     <section id="screen-question" class="screen" hidden>
@@ -46,7 +46,7 @@
       </header>
       <h2 id="question-text" class="question-text"></h2>
       <div id="choice-buttons" class="button-list"></div>
-      <button id="hint-button" type="button" class="hint-button" hidden>힌트 (오답 2개 지우기)</button>
+      <button id="hint-button" type="button" class="hint-button secondary" hidden>힌트 (오답 2개 지우기)</button>
       <div id="feedback" class="feedback" aria-live="polite" hidden>
         <p id="feedback-verdict" class="verdict"></p>
         <p id="feedback-explanation"></p>
@@ -71,7 +71,7 @@
       <div class="button-row">
         <button id="retry-button" type="button" class="primary" hidden>틀린 문제 다시 풀기</button>
         <button id="again-button" type="button" class="primary">같은 모드 다시</button>
-        <button id="home-button" type="button">처음으로</button>
+        <button id="home-button" type="button" class="secondary">처음으로</button>
       </div>
     </section>
 
@@ -79,7 +79,7 @@
       <h2>순위표</h2>
       <p id="leaderboard-error" class="notice notice-error" hidden>기록을 저장할 수 없음</p>
       <div id="leaderboard-tables"></div>
-      <button id="leaderboard-home-button" type="button">처음으로</button>
+      <button id="leaderboard-home-button" type="button" class="secondary">처음으로</button>
     </section>
   </main>
   <script src="questions.js"></script>

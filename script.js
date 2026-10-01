@@ -730,6 +730,7 @@ function renderLeaderboard() {
 
 function onCategoryChosen(category) {
   state.category = category;
+  document.body.dataset.category = CATEGORY_PREFIX[category];  // CSS가 카테고리 색을 고르는 데 씁니다.
   $("mode-title").textContent = `${category} · 모드를 고르세요`;
   showScreen("screen-mode");
 }
