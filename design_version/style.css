@@ -1,0 +1,317 @@
+/* 규칙: 카테고리 색(--cat)은 "지금 어느 카테고리인지"를, 파랑(--primary)은 "누를 수 있는 행동"을 뜻한다.
+   카테고리를 담는 판(시작 화면 버튼, 문제 상태 줄, 결과 점수판, 순위표 칸)은 수험서 색인 탭 모양으로 통일한다. */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1d2330;
+  --muted: #5b6475;
+  --border: #d6dae3;
+  --primary: #2f5bea;
+  --primary-text: #ffffff;
+  --correct: #1f7a3f;
+  --correct-bg: #e5f5ea;
+  --wrong: #b3261e;
+  --wrong-bg: #fbe7e5;
+  --notice-bg: #fff6d9;
+  /* 카테고리 색인 탭 색 (script.js CATEGORIES 순서) */
+  --cat-history: #a3372c;
+  --cat-geography: #156f8c;
+  --cat-science: #5149b0;
+  --cat-culture: #9a6a0c;
+  /* 현재 카테고리. 탭 위치는 0~3으로, 시작 화면에서 그 카테고리 탭이 있던 자리와 같다. */
+  --cat: var(--primary);
+  --tab: 0;
+  --radius: 12px;
+}
+
+/* script.js가 카테고리를 고를 때 body에 data-category(CATEGORY_PREFIX 값)를 붙인다. */
+body[data-category="kh"] { --cat: var(--cat-history); --tab: 0; }
+body[data-category="wg"] { --cat: var(--cat-geography); --tab: 1; }
+body[data-category="sc"] { --cat: var(--cat-science); --tab: 2; }
+body[data-category="ac"] { --cat: var(--cat-culture); --tab: 3; }
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.app { max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; }
+.screen { padding-top: clamp(8px, 4vw, 24px); }
+
+h1 { font-size: 2rem; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; margin: 0 0 10px; }
+h2 { font-size: 1.5rem; font-weight: 800; line-height: 1.35; letter-spacing: -0.01em; margin: 0 0 20px; overflow-wrap: anywhere; }
+.lead { color: var(--muted); font-size: 1.0625rem; line-height: 1.7; margin: 0 0 16px; }
+
+.button-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+
+/* ----- 버튼 ----- */
+button {
+  font: inherit;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--primary); }
+button:disabled { cursor: default; }
+button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+button.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-text); font-weight: 700; text-align: center; }
+button.primary:hover:not(:disabled) { background: #2449c4; border-color: #2449c4; }
+button.primary:disabled { opacity: 0.5; }
+/* 화면을 옮기거나 보조 기능을 쓰는 버튼: 흰 바탕에 파란 글씨 */
+button.secondary { color: var(--primary); font-weight: 600; text-align: center; }
+button.secondary:disabled { color: var(--muted); }
+.screen > button.secondary { width: 100%; }
+
+.button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.button-row button { flex: 1 1 140px; text-align: center; }
+
+/* ----- 알림 ----- */
+.notice { background: var(--notice-bg); border-radius: 8px; padding: 8px 12px; margin: 12px 0; font-size: 1rem; }
+.notice-error { background: var(--wrong-bg); color: var(--wrong); }
+
+/* ----- 색인 탭 판: 위 테두리와 탭을 카테고리 색으로 ----- */
+.category-list > button,
+.status-bar,
+.result-score,
+.board {
+  position: relative;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--cat);
+  border-radius: 3px 3px var(--radius) var(--radius);
+  background: var(--surface);
+}
+.category-list > button::before,
+.status-bar::before,
+.result-score::before,
+.board::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: calc(75% * var(--tab) / 3 - 1px);
+  width: calc(25% + 2px);
+  height: 11px;
+  border-radius: 6px 6px 0 0;
+  background: var(--cat);
+}
+
+/* ----- 시작 화면 ----- */
+#screen-start .lead { margin-bottom: 36px; }
+
+.category-list { gap: 26px; margin: 0 0 32px; }
+.category-list > button {
+  display: flex;
+  align-items: center;
+  min-height: 68px;
+  padding: 18px 20px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+/* 버튼은 script.js가 CATEGORIES 순서대로 만들므로 순서로 색과 탭 위치를 붙인다. */
+.category-list > button:nth-child(1) { --cat: var(--cat-history); --tab: 0; }
+.category-list > button:nth-child(2) { --cat: var(--cat-geography); --tab: 1; }
+.category-list > button:nth-child(3) { --cat: var(--cat-science); --tab: 2; }
+.category-list > button:nth-child(4) { --cat: var(--cat-culture); --tab: 3; }
+.category-list > button:hover:not(:disabled) {
+  border-color: var(--cat);
+  background: color-mix(in srgb, var(--cat) 7%, var(--surface));
+}
+.category-list > button:disabled { opacity: 0.5; }
+
+/* ----- 모드 선택 ----- */
+#mode-title::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 8px;
+  margin-bottom: 12px;
+  border-radius: 4px 4px 0 0;
+  background: var(--cat);
+}
+.mode-button { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; }
+.mode-button strong { font-size: 1.125rem; line-height: 1.4; }
+.mode-button span { color: var(--muted); font-size: 1rem; }
+.mode-button .mode-note { color: var(--text); background: var(--notice-bg); border-radius: 6px; padding: 2px 10px; margin-top: 4px; align-self: flex-start; }
+.mode-button:hover:not(:disabled) { border-color: var(--cat); background: color-mix(in srgb, var(--cat) 6%, var(--surface)); }
+#screen-mode .button-list { margin: 0 0 24px; }
+
+/* ----- 문제 화면 ----- */
+.status-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label score"
+    "progress timer";
+  gap: 2px 16px;
+  align-items: center;
+  margin: 14px 0 24px;
+  padding: 14px 18px;
+}
+#status-label { grid-area: label; color: var(--muted); }
+#status-score { grid-area: score; justify-self: end; font-weight: 700; font-variant-numeric: tabular-nums; }
+#status-progress {
+  grid-area: progress;
+  color: var(--cat);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.timer {
+  grid-area: timer;
+  justify-self: end;
+  padding: 4px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.timer.urgent { color: var(--wrong); background: var(--wrong-bg); border-color: var(--wrong); }
+
+.question-text { font-size: 1.25rem; font-weight: 700; line-height: 1.6; letter-spacing: 0; margin: 0 0 20px; }
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 14px 18px;
+  font-size: 1.0625rem;
+}
+.choice:hover:not(:disabled) { border-color: var(--cat); background: color-mix(in srgb, var(--cat) 6%, var(--surface)); }
+.choice.correct { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); font-weight: 700; }
+.choice.wrong { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); font-weight: 700; }
+.choice:disabled:not(.correct):not(.wrong) { opacity: 0.6; }
+.choice.removed:disabled:not(.correct):not(.wrong) { opacity: 0.4; text-decoration: line-through; }
+/* "정답"/"오답" 글자 표시. 색만으로 구분하지 않도록 늘 글자와 함께 보인다. */
+.mark {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 1px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.choice.correct .mark { background: var(--correct); }
+.choice.wrong .mark { background: var(--wrong); }
+
+.hint-button { width: 100%; margin-bottom: 16px; }
+
+.feedback {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 4px var(--radius) var(--radius) 4px;
+  padding: 16px 18px;
+}
+.feedback:has(.verdict-correct) { border-left-color: var(--correct); }
+.feedback:has(.verdict-wrong) { border-left-color: var(--wrong); }
+.feedback p { margin: 0 0 10px; overflow-wrap: anywhere; }
+.feedback button { width: 100%; margin-top: 8px; }
+.verdict { font-weight: 800; font-size: 1.25rem; }
+.verdict-correct { color: var(--correct); }
+.verdict-wrong { color: var(--wrong); }
+#feedback-explanation { line-height: 1.7; }
+.source { font-size: 1rem; color: var(--muted); }
+.source a { color: var(--primary); overflow-wrap: anywhere; }
+
+/* ----- 결과 화면 ----- */
+.result-score {
+  margin: 14px 0 16px;
+  padding: 20px 22px;
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.result-score.result-score-retry { font-size: 1.125rem; font-weight: 700; line-height: 1.6; letter-spacing: 0; }
+
+.result-list { margin: 24px 0; padding-left: 28px; }
+.result-list li {
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 4px var(--radius) var(--radius) 4px;
+}
+.result-list li::marker { color: var(--muted); font-weight: 700; }
+.result-list p { margin: 0; overflow-wrap: anywhere; }
+.result-detail { margin-top: 4px; font-size: 1rem; font-weight: 700; }
+.result-list .result-correct { border-left-color: var(--correct); }
+.result-list .result-wrong { border-left-color: var(--wrong); }
+.result-correct .result-detail { color: var(--correct); }
+.result-wrong .result-detail { color: var(--wrong); }
+
+.record-form { margin: 20px 0; }
+.record-form label { display: block; margin-bottom: 8px; font-weight: 600; }
+.record-row { display: flex; gap: 8px; }
+.record-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+.record-row input:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+.record-row button { flex: 0 0 auto; }
+
+/* ----- 순위표 ----- */
+#leaderboard-tables { margin-top: 30px; }
+.board { margin-bottom: 30px; padding: 14px 16px 6px; }
+/* 칸은 script.js가 스피드 4개, 힌트 4개 순서로 만들고, 각 4개는 CATEGORIES 순서다. */
+.board:nth-child(4n+1) { --cat: var(--cat-history); --tab: 0; }
+.board:nth-child(4n+2) { --cat: var(--cat-geography); --tab: 1; }
+.board:nth-child(4n+3) { --cat: var(--cat-science); --tab: 2; }
+.board:nth-child(4n+4) { --cat: var(--cat-culture); --tab: 3; }
+.board:nth-child(5) { margin-top: 44px; }
+.board h3 { font-size: 1.0625rem; font-weight: 700; margin: 0 0 6px; }
+.board table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.board th, .board td { padding: 10px 8px; font-size: 1rem; text-align: left; vertical-align: top; }
+.board th { color: var(--muted); font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+.board td { border-bottom: 1px solid var(--border); }
+.board tbody tr:last-child td { border-bottom: 0; }
+.board th:nth-child(1), .board td:nth-child(1) { width: 3.5em; text-align: center; }
+.board td:nth-child(1) { font-weight: 700; color: var(--muted); }
+.board tbody tr:first-child td:nth-child(1) { color: var(--cat); font-weight: 800; }
+.board td:nth-child(2) { font-weight: 600; overflow-wrap: anywhere; }
+.board th:nth-child(3), .board td:nth-child(3) { text-align: right; font-weight: 700; white-space: nowrap; }
+.board th:nth-child(4), .board td:nth-child(4) { text-align: right; white-space: nowrap; }
+.board td:nth-child(4) { color: var(--muted); }
+.board-empty { color: var(--muted); margin: 0 0 8px; }
+
+@media (max-width: 400px) {
+  .result-score { font-size: 2.25rem; }
+  .board { padding-left: 10px; padding-right: 10px; }
+  .board th, .board td { padding: 9px 5px; }
+  .board th:nth-child(1), .board td:nth-child(1) { width: 3em; }
+}
